@@ -1,0 +1,125 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
+/*   Updated: 2022/09/20 12:45:54 by yel-aoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef SHELL_H
+# define SHELL_H
+
+# include <readline/readline.h>
+# include <readline/history.h>
+# include<stdio.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <string.h>
+# include <stdlib.h>
+# include "libft.h"
+# include "minishell.h"
+
+# define GREEN "\033[0;32m"
+# define WHITE "\033[0;37m"
+# define YELLOW "\033[0;33m"
+typedef struct sh
+{
+	int	i;
+	int	j;
+	int	k;
+	int	l;
+}			t_sh;
+
+typedef struct shell
+{
+	char	**export;
+	char	**env;
+	int		argc;
+	char	**argv;
+	char	**cmd_args;
+	int		**pipes;
+	char	**command;
+	char	*command_path;
+	char	**path;
+	t_sh	*sh;
+}			t_shell;
+
+//utiles/ft_tools.c
+int		ft_strcmp(char *s1, char *s2);
+char	**ft_add_env(t_shell *shell, char **env, char *str);
+char	**ft_add_export(t_shell *shell, char **env, char *str);
+
+//utiles/utiles_1.c
+
+int		ft_count(char **env);
+char	*ft_find_in_env(char **new, char *find);
+void	ft_export(t_shell *shell, char **env);
+void	ft_env(t_shell *shell, char **env);
+
+//utiles/utiles_2.c
+char	**ft_pwd(char **new);
+char	**ft_oldpwd(char **new);
+int		ft_is_n(char *str);
+
+//src/ft_init.c
+void	ft_init_env(t_shell *shell, char **new);
+void	ft_check_builtins(t_shell *shell, char *str);
+
+//builtins
+void	ft_cd(t_shell *shell);
+void	ft_echo(t_shell *shell);
+void	ft_put_env(t_shell *shell);
+void	ft_put_export(t_shell *shell, char *str);
+void	ft_put_pwd(void);
+void	ft_unset(t_shell *shell, char *str);
+void	ft_exit(t_shell *shell);
+
+//builtins/export.c
+int		ft_search(char *str, char c);
+int		ft_valid_name(char	*s);
+
+//src/update.c
+
+void	ft_unset(t_shell *shell, char *str);
+char	**update_env(t_shell *shell, char *str);
+char	**update_export(t_shell *shell, char *str);
+
+//utiles/ft_up.c
+
+char	**ft_up_env(t_shell *shell, char *str);
+char	**ft_up_export(t_shell *shell, char *str);
+char	**ft_join_export(t_shell *shell, char *str);
+char	**ft_join_env(t_shell *shell, char *str);
+
+//utiles/ft_tools_help.c
+char	**ft_add_export_help1(t_shell *shell, \
+		char *splt, char **env, char *str);
+char	**ft_add_export_help2(char **env, char *str);
+char	**ft_add_env_help(char **env, char *str);
+char	*ft_add(char *str);
+int		ft_is_longer(char *str, char *str1);
+
+// exec/exec_utiles.c
+void	ft_get_cmd(t_shell *shell, char **cmd);
+
+// exec/exec_tools.c
+void	ft_err_cmd(char *str, int k);
+void	ft_error(char *str);
+
+//exec/exec_cmd.c
+void	ft_creat_pipes(t_shell *shell, int k);
+void	first_c(char **cmd, t_shell *shell, int k);
+void	between_c(char **cmd, t_shell *shell, int i);
+void	last_c(char **cmd, t_shell *shell, int i);
+
+//builtins/ft_help_export.c
+int		ft_write(char *str);
+void	ft_up_help(t_shell *shell, char *str);
+
+void	exec(t_shell *shell, char *str);
+
+#endif
