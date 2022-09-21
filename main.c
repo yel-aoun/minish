@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/20 12:46:47 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:08:46 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,71 +86,6 @@ void	ppp_struct(t_redirection *str)
 	printf("nonoonoonoonono \n");
 }
 
-int main(int ac, char **av, char **env)
-{
-
-	while(1)
-	{
-		char    *inpt;
-		char	*str;
-		t_redirection	*redir;
-		t_cmd	*cmd;
-		t_cmd	*new;
-		
-		cmd = NULL;
-		token_t *token = (void*)0;
-        inpt = readline( "minishell> " );
-        add_history(inpt);
-		redir = NULL;
-		lexer_t *lexer = init_lexer(inpt);
-		
-		(void) (ac);
-		(void) (av);
-		while ((token = lexer_get_next_token(lexer, env)) != (void*)0)
-		{
-			//printf("%s\n", token->value);
-			while (token->type != token_pipe)
-			{
-				if (is_redirection(token))
-				{
-					ft_lstadd_bak(&redir, struct_redir(token, lexer, env));
-					//printf("heere\n");
-				}
-				else
-					str = struct_cmd(lexer, token, str, env);
-				if ((token = lexer_get_next_token(lexer, env)) == (void*)0)
-					break;
-			}
-			//ppp_struct(redir);
-			ft_lstnew(&new, redir, str);
-			new->next = NULL;
-			ft_lstadd_back(&cmd, new);
-			pr_struct(cmd);
-			free(str);
-		}
-		// printf("%s\n", cmd->cmd[0]);
-		ft_free2(&redir);
-		ft_free_struct(&cmd);
-	}
-}
-
-t_redirection	*struct_redir(token_t *token, lexer_t *lexer, char **env)
-{
-	t_redirection	*redir;
-
-	redir = malloc(sizeof(t_redirection));
-	redir->next = NULL;
-	
-	if (token->type == token_herdoc)
-		collect_redirection(redir, lexer, token, env);
-	else if (token->type == token_apend)
-		collect_redirection(redir, lexer, token, env);
-	else if (token->type == token_infile)
-		collect_redirection(redir, lexer, token, env);
-	else if (token->type == token_outfile)
-		collect_redirection(redir, lexer, token, env);
-	return (redir);
-}
 
 void collect_redirection(t_redirection *redir, lexer_t *lexer, token_t *token, char **env)
 {
@@ -184,5 +119,80 @@ int	is_redirection(token_t *token)
 		return (1);
 	return (0);
 }
+
+t_redirection	*struct_redir(token_t *token, lexer_t *lexer, char **env)
+{
+	t_redirection	*redir;
+
+	redir = malloc(sizeof(t_redirection));
+	redir->next = NULL;
+	
+	if (token->type == token_herdoc)
+		collect_redirection(redir, lexer, token, env);
+	else if (token->type == token_apend)
+		collect_redirection(redir, lexer, token, env);
+	else if (token->type == token_infile)
+		collect_redirection(redir, lexer, token, env);
+	else if (token->type == token_outfile)
+		collect_redirection(redir, lexer, token, env);
+	return (redir);
+}
+
+int main(int ac, char **av, char **env)
+{
+	t_shell	*shell;
+	char    *inpt;
+	char	*str;
+	t_redirection	*redir;
+	t_cmd	*cmd;
+	t_cmd	*new;
+	token_t *token = (void*)0;
+
+	cmd = NULL;
+	shell = malloc(sizeof(t_shell));
+	ft_init_env(shell, env);
+	while(1)
+	{
+		str = NULL;
+        inpt = readline(YELLOW "minishell> " WHITE);
+		if (ft_strcmp(inpt, ""))
+		{
+        	add_history(inpt);
+			redir = NULL;
+			lexer_t *lexer = init_lexer(inpt);
+			
+			(void) (ac);
+			(void) (av);
+			while ((token = lexer_get_next_token(lexer, shell->env )) != (void*)0)
+			{
+				//printf("%s\n", token->value);
+				while (token->type != token_pipe)
+				{
+					if (is_redirection(token))
+					{
+						ft_lstadd_bak(&redir, struct_redir(token, lexer, shell->env));
+						//printf("heere\n");
+					}
+					else
+						str = struct_cmd(lexer, token, str, shell->env);
+					if ((token = lexer_get_next_token(lexer, shell->env)) == (void*)0)
+						break;
+				}
+				//ppp_struct(redir);
+				ft_lstnew(&new, redir, str);
+				new->next = NULL;
+				ft_lstadd_back(&cmd, new);
+				pr_struct(cmd);
+				free(str);
+			}
+			// printf("%s\n", cmd->cmd[0]);
+			// ft_get_exec(shell, cmd);
+			ft_free2(&redir);
+			ft_free_struct(&cmd);
+		}
+	}
+}
+
+
 
 	

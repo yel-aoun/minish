@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/20 12:45:54 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/20 14:14:34 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ int		ft_is_n(char *str);
 
 //src/ft_init.c
 void	ft_init_env(t_shell *shell, char **new);
-void	ft_check_builtins(t_shell *shell, char *str);
+void	ft_check_builtins(t_shell *shell, t_cmd *cmd);
+
+void    ft_get_exec(t_shell *shell, t_cmd *cmd);
 
 //builtins
 void	ft_cd(t_shell *shell);

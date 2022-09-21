@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
+/*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/06 11:36:15 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/20 15:51:58 by yel-aoun         ###   ########.fr       */
+/*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
+/*   Updated: 2022/09/20 14:13:15 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/shell.h"
+# include "../includes/shell.h"
 
-void	ft_init_env(t_shell *shell, char **new)
+void    ft_get_exec(t_shell *shell, t_cmd *cmd)
 {
-	// shell->env = malloc(sizeof(char **) * ft_count(new) + 1);
-	// shell->export = malloc(sizeof(char **) * ft_count(new) + 1);
-	// if (!shell->env || !shell->export)
-	// 	return ;
-	ft_export(shell, new);
-	ft_env(shell, new);
+    ft_check_builtins(shell, cmd);
 }

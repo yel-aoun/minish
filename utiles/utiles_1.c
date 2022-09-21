@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:34:42 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/20 10:00:11 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/20 15:50:26 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	ft_export(t_shell *shell, char **env)
 		shell->export[i] = ft_strdup(env[i]);
 		i++;
 	}
+	shell->export[i] = NULL;
 }
 
 void	ft_env(t_shell *shell, char **env)
@@ -66,4 +67,5 @@ void	ft_env(t_shell *shell, char **env)
 		shell->env[i] = ft_strdup(env[i]);
 		i++;
 	}
+	shell->env[i] = NULL;
 }
