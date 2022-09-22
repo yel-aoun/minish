@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:53:54 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/20 14:26:21 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:13:30 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_lower(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] >= 65 && str[i] <= 90)
@@ -32,8 +34,9 @@ void	ft_check_builtins(t_shell *shell, t_cmd *cmd)
 
 	cmp = ft_strdup(cmd->cmd[0]);
 	cmp = ft_lower(cmp);
+	printf("heeeer\n");
 	if (ft_strcmp(cmp, "echo") == 0)
-		ft_echo(shell);
+		ft_echo(cmd);
 	else if (ft_strcmp(cmp, "env") == 0)
 		ft_put_env(shell);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)

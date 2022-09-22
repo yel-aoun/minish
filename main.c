@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/21 14:08:46 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:45:37 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	pr_struct(t_cmd *str)
 		printf("########  STRUCT  ######\n");
 		while (cmd->cmd[i])
 		{
-			printf(" ---cmd[%d]--->   %s\n",i, cmd->cmd[i]);
+			printf(" ---cmd[0]--->   %s\n", cmd->cmd[0]);
 			i++;
 		}
 		cmd =cmd->next;
@@ -178,15 +178,16 @@ int main(int ac, char **av, char **env)
 					if ((token = lexer_get_next_token(lexer, shell->env)) == (void*)0)
 						break;
 				}
-				//ppp_struct(redir);
+				// ppp_struct(redir);
 				ft_lstnew(&new, redir, str);
 				new->next = NULL;
 				ft_lstadd_back(&cmd, new);
-				pr_struct(cmd);
 				free(str);
 			}
+			pr_struct(cmd);
+			// cmd = cmd->next;
 			// printf("%s\n", cmd->cmd[0]);
-			// ft_get_exec(shell, cmd);
+			// ft_get_exec(shell, cmd, redir);
 			ft_free2(&redir);
 			ft_free_struct(&cmd);
 		}

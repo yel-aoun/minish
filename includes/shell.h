@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/20 14:14:34 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:09:54 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # include <sys/types.h>
 # include <string.h>
 # include <stdlib.h>
-# include "libft.h"
+# include "../libft/libft.h"
+# include "../get_next/get_next_line.h"
 # include "minishell.h"
 
 # define GREEN "\033[0;32m"
@@ -69,11 +70,11 @@ int		ft_is_n(char *str);
 void	ft_init_env(t_shell *shell, char **new);
 void	ft_check_builtins(t_shell *shell, t_cmd *cmd);
 
-void    ft_get_exec(t_shell *shell, t_cmd *cmd);
+void    ft_get_exec(t_shell *shell, t_cmd *cmd, t_redirection *redir);
 
 //builtins
 void	ft_cd(t_shell *shell);
-void	ft_echo(t_shell *shell);
+void	ft_echo(t_cmd *cmd);
 void	ft_put_env(t_shell *shell);
 void	ft_put_export(t_shell *shell, char *str);
 void	ft_put_pwd(void);
@@ -122,6 +123,16 @@ void	last_c(char **cmd, t_shell *shell, int i);
 int		ft_write(char *str);
 void	ft_up_help(t_shell *shell, char *str);
 
-void	exec(t_shell *shell, char *str);
+void	exec(t_shell *shell, t_cmd *cmd);
+
+
+// get_next_line.c
+// char	*get_next_line(int fd);
+// char	*ft_save_what_i_did_read(int fd, char *save_read);
+// char	*ft_static(char *save);
+// char	*ft_put(char *s_r);
+// char	*ft_strdup_demo(char *s1, int d);
+// char	*ft_strjoin_t(char	*s1, char	*s2);
+// char	*ft_strjoin_ft(char *s1, char *s2, int s);
 
 #endif

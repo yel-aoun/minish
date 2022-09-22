@@ -6,16 +6,16 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/16 21:34:38 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:22:54 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-typedef struct s_exe
-{
-	char	**cmd;
-}		t_exe;
+// typedef struct s_exe
+// {
+// 	char	**cmd;
+// }		t_exe;
 
 void	ft_close(t_shell *shell, int k)
 {
@@ -30,38 +30,50 @@ void	ft_close(t_shell *shell, int k)
 	}
 }
 
-int	co_unt(char *str, int c)
+int	co_unt(t_cmd *cmd)
 {
 	int	i;
-	int	k;
+	t_cmd *count;
+	// int	k;
 
 	i = 0;
-	k = 0;
-	while (str[i])
+	count = cmd;
+	// k = 0;
+	// while (str[i])
+	// {
+	// 	if (str[i] == c)
+	// 		k++;
+	// 	i++;
+	// }
+	// return (k);
+	while (count)
 	{
-		if (str[i] == c)
-			k++;
+		count = count->next;
 		i++;
 	}
-	return (k);
+	return (i);
 }
 
-void	ex_betw(t_shell *shell, t_exe *cmds, int k)
+void	ex_betw(t_shell *shell, t_cmd *command, int k)
 {
-	int	i;
+	int		i;
+	t_cmd	*cmd;
 
 	i = 0;
+	cmd = command;
+	cmd = cmd->next;
 	while (i < k - 1)
 	{
 		pipe(shell->pipes[i + 1]);
-		between_c(cmds[i + 1].cmd, shell, i);
+		between_c(cmd->cmd, shell, i);
 		close(shell->pipes[i][0]);
 		close(shell->pipes[i][1]);
 		i++;
+		cmd = cmd->next;
 	}
 }
 
-void	execute_cmds(t_exe *cmds, t_shell *shell, int k)
+void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
 {
 	int		i;
 	pid_t	pid;
@@ -76,15 +88,21 @@ void	execute_cmds(t_exe *cmds, t_shell *shell, int k)
 		return ;
 	}
 	if (pid == 0)
-		first_c(cmds[0].cmd, shell, k);
+		first_c(cmd->cmd, shell, k);
 	else
 	{
 		if (k > 0)
 		{
-			ex_betw(shell, cmds, k);
+			ex_betw(shell, cmd, k);
 			pid2 = fork();
 			if (pid2 == 0)
-				last_c(cmds[k].cmd, shell, k - 1);
+			{
+				while (cmd->next)
+				{
+					cmd = cmd->next;
+				}
+				last_c(cmd->cmd, shell, k - 1);
+			}
 			else
 				ft_close(shell, k);
 		}
@@ -94,21 +112,10 @@ void	execute_cmds(t_exe *cmds, t_shell *shell, int k)
 	}
 }
 
-void	exec(t_shell *shell, char *str)
+void	exec(t_shell *shell, t_cmd *cmd)
 {
-	int		i;
 	int		k;
-	char	**s;
-	t_exe	*cmds;
 
-	i = 0;
-	s = ft_split(str, '|');
-	k = co_unt(str, '|');
-	cmds = malloc((k + 1) * sizeof(t_exe));
-	while (s[i])
-	{
-		cmds[i].cmd = ft_split(s[i], ' ');
-		i++;
-	}
-	execute_cmds(cmds, shell, k);
+	k = co_unt(cmd);
+	execute_cmds(cmd, shell, k);
 }

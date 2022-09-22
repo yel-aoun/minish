@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-aoun <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 21:07:03 by yel-aoun          #+#    #+#             */
-/*   Updated: 2021/12/13 21:07:09 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/22 10:18:49 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-size_t	ft_strlen(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
-}
+#include "../includes/shell.h"
 
 char	*ft_strdup_demo(char *s1, int d)
 {
@@ -47,25 +35,7 @@ char	*ft_strdup_demo(char *s1, int d)
 	return (cup);
 }
 
-char	*ft_strchr(char *str, int c)
-{
-	int		i;
-	char	s;
-
-	i = 0;
-	s = (char)c;
-	if (!str)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == s)
-			return (&str[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*ft_strjoin(char	*s1, char	*s2)
+char	*ft_strjoin_t(char	*s1, char	*s2)
 {
 	char	*tmp;
 

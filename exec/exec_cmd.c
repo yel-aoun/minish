@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:39:10 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/17 09:21:38 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:32:26 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	first_c(char **cmd, t_shell *shell, int k)
 		close(shell->pipes[0][0]);
 		close(shell->pipes[0][1]);
 	}
+	fprintf(stderr, "cmd[0] %s \n", cmd[0]);
 	ft_get_cmd(shell, cmd);
 	execve(shell->command_path, cmd, shell->env);
-	perror("hehe");
+	perror("hhhh");
 }
 
 void	between_c(char **cmd, t_shell *shell, int i)
@@ -61,8 +62,12 @@ void	between_c(char **cmd, t_shell *shell, int i)
 		close(shell->pipes[i][1]);
 		close(shell->pipes[i + 1][0]);
 		close(shell->pipes[i + 1][1]);
+		fprintf(stderr, "cmd[0] %s \n", cmd[0]);
 		ft_get_cmd(shell, cmd);
+		printf("cmd[0] : %s\n", cmd[0]);
+		printf("cmd[1] : %s\n", cmd[1]);
 		execve(shell->command_path, cmd, shell->env);
+		perror("hhhhh");
 	}
 }
 
@@ -74,4 +79,5 @@ void	last_c(char **cmd, t_shell *shell, int i)
 	close(shell->pipes[i][1]);
 	ft_get_cmd(shell, cmd);
 	execve(shell->command_path, cmd, shell->env);
+	perror("hhhh");
 }

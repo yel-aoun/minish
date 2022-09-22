@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-aoun <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 21:04:27 by yel-aoun          #+#    #+#             */
-/*   Updated: 2021/12/13 21:04:32 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/22 10:12:37 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/shell.h"
 
 char	*ft_put(char *s_r)
 {
@@ -77,7 +77,7 @@ char	*ft_save_what_i_did_read(int fd, char *save_read)
 			return (NULL);
 		}
 		buf[read_b] = '\0';
-		save_read = ft_strjoin(save_read, buf);
+		save_read = ft_strjoin_t(save_read, buf);
 	}
 	free (buf);
 	return (save_read);

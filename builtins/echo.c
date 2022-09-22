@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 19:22:21 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/14 17:42:18 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:15:48 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,27 @@ void	ft_putstr(char *str)
 	}
 }
 
-void	ft_echo(t_shell *shell)
+void	ft_echo(t_cmd *cmd)
 {
 	int	i;
 	int	endl;
 
 	i = 1;
 	endl = 1;
-	if (!shell->cmd_args[i])
+	if (!cmd->cmd[i])
 	{
 		ft_putchar('\n');
 		return ;
 	}
-	while (shell->cmd_args[i] && ft_strequ(shell->cmd_args[i], "-n"))
+	while (cmd->cmd[i] && ft_strequ(cmd->cmd[i], "-n"))
 	{
 		endl = 0;
 		i++;
 	}
-	while (shell->cmd_args[i])
+	while (cmd->cmd[i])
 	{
-		ft_putstr(shell->cmd_args[i]);
-		if (shell->cmd_args[i + 1])
+		ft_putstr(cmd->cmd[i]);
+		if (cmd->cmd[i + 1])
 			ft_putchar(' ');
 		i++;
 	}
