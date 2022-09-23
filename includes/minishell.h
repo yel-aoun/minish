@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 12:06:37 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/20 12:38:41 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:30:02 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,5 @@ t_redirection	*struct_redir(token_t *token, lexer_t *lexer, char **env);
 void	ft_lstadd_bak(t_redirection **alst, t_redirection *new);
 void	ft_lstnew(t_cmd **cmd, t_redirection* redir, char* str);
 char	**ft_tsplit(const char *s, char c);
+char	*ft_eror(int i);
 #endif

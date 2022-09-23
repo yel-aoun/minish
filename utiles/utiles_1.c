@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:34:42 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/20 15:50:26 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:32:55 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_export(t_shell *shell, char **env)
 	// char	**export;
 
 	i = 0;
-	shell->export = malloc(sizeof(char *) * ft_count(env) + 1);
+	shell->export = malloc(sizeof(char *) * (ft_count(env) + 1));
 	if (!shell->export)
 		return ;
 	while (env[i])
@@ -59,7 +59,7 @@ void	ft_env(t_shell *shell, char **env)
 	// char	**new;
 
 	i = 0;
-	shell->env = malloc(sizeof(char *) * ft_count(env) + 1);
+	shell->env = malloc(sizeof(char *) * (ft_count(env) + 1));
 	if (!shell->env)
 		return ;
 	while (env[i])

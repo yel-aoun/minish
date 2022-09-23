@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 13:45:50 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/20 14:42:42 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:28:17 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ char *get_alnum(char *str, lexer_t *lexer)
 	int		j;
 	i = 0;
 	j = 0;
-	while(isalnum(str[i]))
+	while(ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	s = malloc(sizeof(char) * i + 1);
-	while (isalnum(str[j]))
+	while (ft_isalnum(str[j]) || str[j]== '_')
 	{
 		s[j] = str[j];
 		j++;
@@ -59,7 +59,7 @@ char	*find_in_env2(lexer_t *lexer, char **env)
 		//printf("pizzaaaa %s\n", str);
 		return (str);
 	}
-	else if (isalnum(lexer->c))
+	else if (lexer->c != ' ')
 		return (str = lexer_get_current_char_as_atring(lexer));
 	else
 		return ("");

@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/22 18:39:25 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:18:46 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void    ft_get_exec(t_shell *shell, t_cmd *cmd, t_redirection *redir)
 {   
     // pid_t id;
     redir = NULL;
-    shell = NULL;
+    // shell = NULL;
 
     // id = fork();
     // printf("ppppp : %s\n", redir->value);
@@ -79,10 +79,10 @@ void    ft_get_exec(t_shell *shell, t_cmd *cmd, t_redirection *redir)
     //     printf("cmd : %s\n", cmd->cmd[0]);
     // // ft_check_builtins(shell, cmd);
     // wait(NULL);
-    // exec(shell, cmd);
-    while (cmd)
-    {
-        printf("cmd : %s\n", cmd->cmd[0]);
-        cmd = cmd->next;
-    }
+    exec(shell, cmd);
+    // while (cmd)
+    // {
+    //     printf("cmd : %s\n", cmd->cmd[0]);
+    //     cmd = cmd->next;
+    // }
 }
