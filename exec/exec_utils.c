@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 08:57:45 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/23 13:36:28 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:03:24 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	command_with_path(t_shell *shell, char **command)
 	path = ft_strchr(command[0], '/');
 	if (path)
 	{
-		check = access(path, X_OK);
+		check = access(command[0], X_OK);
 		if (!check)
-			shell->command_path = path;
+			shell->command_path = command[0];
 	}
 	return (check);
 }

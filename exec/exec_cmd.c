@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:39:10 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/23 13:37:24 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:41:49 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	first_c(char **cmd, t_shell *shell, int k)
 	}
 	ft_get_cmd(shell, cmd);
 	execve(shell->command_path, cmd, shell->env);
-	perror("");
+	// perror("");
 }
 
 void	between_c(char **cmd, t_shell *shell, int i)
@@ -66,7 +66,7 @@ void	between_c(char **cmd, t_shell *shell, int i)
 		close(shell->pipes[i + 1][1]);
 		ft_get_cmd(shell, cmd);
 		execve(shell->command_path, cmd, shell->env);
-		perror("");
+		// perror("");
 	}
 }
 
@@ -78,5 +78,5 @@ void	last_c(char **cmd, t_shell *shell, int i)
 	close(shell->pipes[i][1]);
 	ft_get_cmd(shell, cmd);
 	execve(shell->command_path, cmd, shell->env);
-	perror("");
+	// perror("");
 }

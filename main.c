@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/23 11:44:50 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:50:30 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,9 +192,22 @@ int main(int ac, char **av, char **env)
 			}
 			// pr_struct(cmd);
 			// printf("%s\n", cmd->cmd[0]);
-			ft_get_exec(shell, cmd, redir);
+			// while (cmd)
+    		// {
+    		//     while (cmd->redirection)
+    		//     {
+    		//         printf("cmd->red->type : %s\n", cmd->redirection->type);
+    		//         printf("cmd->red->value : %s\n", cmd->redirection->value);
+    		//         // printf("heeer\n");
+    		//         printf("___________\n");
+    		//         cmd->redirection = cmd->redirection->next;
+    		//     }
+    		//     cmd = cmd->next;
+    		//     printf("we are in next neaud\n");
+    		// }
+			ft_get_exec(shell, cmd);
 			ft_free_struct(&cmd);
-			free (str);
+			free (str); 
 		}
 	}
 }

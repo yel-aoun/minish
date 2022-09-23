@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 11:06:52 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/23 12:19:52 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:41:16 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 lexer_t		*init_lexer(char *contents)
 {
 	lexer_t *lexer = calloc(1, sizeof (struct lexer_struct));
+	lexer->contents = malloc(sizeof (char) * (ft_strlen(contents)));
 	lexer->contents = contents;
 	lexer->i = 0;
 	lexer->c = contents[lexer->i];

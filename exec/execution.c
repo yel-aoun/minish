@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/23 11:48:20 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:05:31 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	co_unt(t_cmd *cmd)
 	// 	i++;
 	// }
 	// return (k);
-	while (count)
+	while (count->next)
 	{
 		count = count->next;
 		i++;
