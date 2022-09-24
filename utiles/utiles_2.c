@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:29:38 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/13 10:36:04 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 09:01:37 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**ft_pwd(char **new)
 	char	*pwd;
 
 	i = 0;
-	newenv = malloc(sizeof(char *) * ft_count(new) + 1);
+	newenv = malloc(sizeof(char *) * (ft_count(new) + 1));
 	if (!newenv)
 		return (NULL);
 	pwd = getcwd(NULL, 0);
@@ -45,7 +45,7 @@ char	**ft_oldpwd(char **new)
 	char	**newenv;
 
 	i = 0;
-	newenv = malloc(sizeof(char *) * ft_count(new) + 1);
+	newenv = malloc(sizeof(char *) * (ft_count(new) + 1));
 	if (!newenv)
 		return (NULL);
 	while (new[i])

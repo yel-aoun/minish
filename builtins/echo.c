@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 19:22:21 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/21 17:15:48 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 10:42:10 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void	ft_putstr(char *str)
 	}
 }
 
-void	ft_echo(t_cmd *cmd)
+int	ft_echo(t_cmd *cmd)
 {
+	
 	int	i;
 	int	endl;
 
@@ -53,7 +54,7 @@ void	ft_echo(t_cmd *cmd)
 	if (!cmd->cmd[i])
 	{
 		ft_putchar('\n');
-		return ;
+		return(1);
 	}
 	while (cmd->cmd[i] && ft_strequ(cmd->cmd[i], "-n"))
 	{
@@ -69,5 +70,6 @@ void	ft_echo(t_cmd *cmd)
 	}
 	if (endl)
 		ft_putchar('\n');
+	return (1);
 	//shell->exit = 0;
 }

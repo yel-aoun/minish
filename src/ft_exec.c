@@ -6,11 +6,27 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/23 18:53:08 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 10:09:14 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/shell.h"
+
+void    ft_create_pipes_heredoc(t_shell *shell, int k)
+{
+	int	i;
+
+	i = 0;
+	shell->pip_herdoc = malloc(sizeof(int *) * k);
+	if (!shell->pip_herdoc)
+		return ;
+	while (i < k)
+	{
+		shell->pip_herdoc[i] = malloc(sizeof(int) * 2);
+		pipe(shell->pip_herdoc[i]);
+		i++;
+	}
+}
 
 int	ft_count_herdoc_pipes(t_cmd *command)
 {
@@ -39,7 +55,6 @@ int	ft_count_herdoc_pipes(t_cmd *command)
             redirection= redirection->next;
         }
         cmd = cmd->next;
-        printf("we are in next neaud\n");
     }
 	return (i);
 }
@@ -54,15 +69,11 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *cmd)
 
 	k = 0;
     k = ft_count_herdoc_pipes(cmd);
-    // cmd = command;
-    // printf("env[1] : %s\n", shell->env[1]);
-    // printf("//%s\n", cmd->cmd[0]);
-	printf("%d\n", k);
+    ft_create_pipes_heredoc(shell, k);
     while (cmd)
     {   
         while(cmd->redirection)
         { 
-            printf("--%s\n", cmd->cmd[0]);
             while (1)
             {
                 j = 1;
@@ -82,33 +93,23 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *cmd)
         }
         cmd = cmd->next;
     }
-
-    // i = 1;
-    //     write (1, "> ", 2);
-    //     lim = get_next_line(0);
-    //     i = ft_strncmp(lim, pipex->limiter, ft_strlen(pipex->limiter));
-    //     if (i)
-    //         write (pipex->heredoc_pip[1], lim, ft_strlen(lim));
-    //     else
-    //         break ;
-        // printf("type : %s\n", redir->type);
-        // printf("value : %s\n", redir->value);
+    exit (0);
 }
 
 void    ft_get_exec(t_shell *shell, t_cmd *cmd) 
 {   
-    pid_t id;
-    // redir = NULL;
-    // shell = NULL;
+    // pid_t id;
+    // // redir = NULL;
+    // // shell = NULL;
 
-    id = fork();
-    // printf("ppppp : %s\n", cmd->redirection->value);
-    if (id == 0)
-        ft_check_her_doc(shell, cmd);
-    else
-        printf("--------------------cmd : %s\n", cmd->cmd[0]);
-    wait(NULL);
-    // ft_check_builtins(shell, cmd);
+    // id = fork();
+    // // printf("ppppp : %s\n", cmd->redirection->value);
+    // if (id == 0)
+    //     ft_check_her_doc(shell, cmd);
+    // else
+    //     wait(NULL);
+	// cmd = cmd->next;
+	// printf("%s\n", cmd->cmd[0]);
     exec(shell, cmd);
     // while (cmd)
     // int i = 0;

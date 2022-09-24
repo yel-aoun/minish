@@ -6,13 +6,13 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:37:30 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/14 11:32:36 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 10:37:24 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	ft_put_env(t_shell *shell)
+int	ft_put_env(t_shell *shell)
 {
 	int	i;
 
@@ -25,4 +25,5 @@ void	ft_put_env(t_shell *shell)
 		}
 		i++;
 	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:53:54 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/21 17:13:30 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 11:30:47 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,35 @@ char	*ft_lower(char *str)
 	return (str);
 }
 
-void	ft_check_builtins(t_shell *shell, t_cmd *cmd)
+int	ft_check_builtins(t_shell *shell, t_cmd *command)
 {
 	char	*cmp;
+	t_cmd 	*cmd;
+	int		k;                                                     /// i should add a struct to navigate in cmd without modifing in the real one
 
+	k = 0;
+	cmd = command;
 	cmp = ft_strdup(cmd->cmd[0]);
 	cmp = ft_lower(cmp);
-	printf("heeeer\n");
 	if (ft_strcmp(cmp, "echo") == 0)
-		ft_echo(cmd);
+		k = ft_echo(cmd);
 	else if (ft_strcmp(cmp, "env") == 0)
-		ft_put_env(shell);
+		k = ft_put_env(shell);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-		ft_cd(shell);
+		k = ft_cd(shell, cmd);
 	else if (ft_strcmp(cmp, "pwd") == 0)
-		ft_put_pwd();
+		k = ft_put_pwd();
 	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
-		ft_put_export(shell, cmd->cmd[1]);
+		k = ft_put_export(shell, cmd->cmd[1]);
 	else if (ft_strcmp (cmd->cmd[0], "unset") == 0)
-		ft_unset(shell, cmd->cmd[1]);
+		k = ft_unset(shell, cmd);
 	else if (ft_strcmp (cmd->cmd[0], "exit") == 0)
-		ft_exit(shell);
+	{
+		k = 1;
+		ft_exit(shell, cmd);
+	}
 	// else
 	// 	printf("bash: %s: command not found\n", cmd->cmd[0]);
 	free (cmp);
+	return (k);
 }

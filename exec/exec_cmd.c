@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:39:10 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/23 15:41:49 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 11:25:18 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ void	ft_creat_pipes(t_shell *shell, int k)
 		pipe(shell->pipes[0]);
 }
 
-void	first_c(char **cmd, t_shell *shell, int k)
+void	first_c(t_cmd *cmd, t_shell *shell, int k)
 {
+	int	builtin;
+
+	builtin = 0;
 	if (k > 0)
 	{
 		close(shell->pipes[0][0]);
@@ -39,16 +42,22 @@ void	first_c(char **cmd, t_shell *shell, int k)
 		close(shell->pipes[0][0]);
 		close(shell->pipes[0][1]);
 	}
-	ft_get_cmd(shell, cmd);
-	execve(shell->command_path, cmd, shell->env);
+	builtin = ft_check_builtins(shell, cmd);
+	if (!builtin)
+	{
+		ft_get_cmd(shell, cmd->cmd);
+		execve(shell->command_path, cmd->cmd, shell->env);
+	}
 	// perror("");
 }
 
-void	between_c(char **cmd, t_shell *shell, int i)
+void	between_c(t_cmd	*cmd, t_shell *shell, int i)
 {
 	pid_t	pid;
+	int		builtin;
 
 	pid = fork();
+	builtin = 0;
 	if (pid == -1)
 	{
 		printf("bash: fork: Resource temporarily unavailable\n");
@@ -64,19 +73,30 @@ void	between_c(char **cmd, t_shell *shell, int i)
 		close(shell->pipes[i][1]);
 		close(shell->pipes[i + 1][0]);
 		close(shell->pipes[i + 1][1]);
-		ft_get_cmd(shell, cmd);
-		execve(shell->command_path, cmd, shell->env);
+		builtin = ft_check_builtins(shell, cmd);
+		if (!builtin)
+		{
+			ft_get_cmd(shell, cmd->cmd);
+			execve(shell->command_path, cmd->cmd, shell->env);
+		}
 		// perror("");
 	}
 }
 
-void	last_c(char **cmd, t_shell *shell, int i)
+void	last_c(t_cmd *cmd, t_shell *shell, int i)
 {
+	int	builtin;
+
+	builtin = 0;
 	close(shell->pipes[i][1]);
 	dup2(shell->pipes[i][0], 0);
 	close(shell->pipes[i][0]);
 	close(shell->pipes[i][1]);
-	ft_get_cmd(shell, cmd);
-	execve(shell->command_path, cmd, shell->env);
+	builtin = ft_check_builtins(shell, cmd);
+	if (!builtin)
+	{
+		ft_get_cmd(shell, cmd->cmd);
+		execve(shell->command_path, cmd->cmd, shell->env);
+	}
 	// perror("");
 }

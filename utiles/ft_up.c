@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 12:23:22 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/15 12:14:33 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 09:13:44 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,23 @@ char	**ft_join_env(t_shell *shell, char *str)
 	char	**s_p;
 	char	**splt_shell;
 
-	shell->sh->i = 0;
-	shell->sh->k = 0;
+	shell->i = 0;
+	shell->k = 0;
 	s_p = ft_split(str, '=');
 	splt = ft_split(s_p[0], '+');
 	env = malloc(sizeof(char *) * (ft_count(shell->env) + 1));
-	while (shell->env[shell->sh->i])
+	while (shell->env[shell->i])
 	{
-		splt_shell = ft_split(shell->env[shell->sh->i], '=');
-		shell->sh->k = ft_is_longer(splt_shell[0], splt[0]);
-		if (ft_strncmp(splt_shell[0], splt[0], shell->sh->k) == 0)
-			env[shell->sh->i] = ft_join(shell->env[shell->sh->i], str);
+		splt_shell = ft_split(shell->env[shell->i], '=');
+		shell->k = ft_is_longer(splt_shell[0], splt[0]);
+		if (ft_strncmp(splt_shell[0], splt[0], shell->k) == 0)
+			env[shell->i] = ft_join(shell->env[shell->i], str);
 		else
-			env[shell->sh->i] = ft_strdup(shell->env[shell->sh->i]);
-		shell->sh->i++;
+			env[shell->i] = ft_strdup(shell->env[shell->i]);
+		shell->i++;
 		free (splt_shell);
 	}
-	env[shell->sh->i] = NULL;
+	env[shell->i] = NULL;
 	free(s_p);
 	free(splt);
 	return (env);
@@ -70,23 +70,23 @@ char	**ft_join_export(t_shell *shell, char *str)
 	char	**s_p;
 	char	**splt_shell;
 
-	shell->sh->i = 0;
-	shell->sh->k = 0;
+	shell->i = 0;
+	shell->k = 0;
 	s_p = ft_split(str, '=');
 	splt = ft_split(s_p[0], '+');
 	export = malloc(sizeof(char *) * (ft_count(shell->export) + 1));
-	while (shell->export[shell->sh->i])
+	while (shell->export[shell->i])
 	{
-		splt_shell = ft_split(shell->export[shell->sh->i], '=');
-		shell->sh->k = ft_is_longer(splt_shell[0], splt[0]);
-		if (ft_strncmp(splt_shell[0], splt[0], shell->sh->k) == 0)
-			export[shell->sh->i] = ft_join(shell->export[shell->sh->i], str);
+		splt_shell = ft_split(shell->export[shell->i], '=');
+		shell->k = ft_is_longer(splt_shell[0], splt[0]);
+		if (ft_strncmp(splt_shell[0], splt[0], shell->k) == 0)
+			export[shell->i] = ft_join(shell->export[shell->i], str);
 		else
-			export[shell->sh->i] = ft_strdup(shell->export[shell->sh->i]);
-		shell->sh->i++;
+			export[shell->i] = ft_strdup(shell->export[shell->i]);
+		shell->i++;
 		free (splt_shell);
 	}
-	export[shell->sh->i] = NULL;
+	export[shell->i] = NULL;
 	free(s_p);
 	free(splt);
 	return (export);

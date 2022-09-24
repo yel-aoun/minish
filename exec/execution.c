@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/23 16:05:31 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 11:31:50 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ex_betw(t_shell *shell, t_cmd *command, int k)
 	while (i < k - 1)
 	{
 		pipe(shell->pipes[i + 1]);
-		between_c(cmd->cmd, shell, i);
+		between_c(cmd, shell, i);
 		close(shell->pipes[i][0]);
 		close(shell->pipes[i][1]);
 		i++;
@@ -73,13 +73,16 @@ void	ex_betw(t_shell *shell, t_cmd *command, int k)
 	}
 }
 
-void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
+void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 {
 	int		i;
 	pid_t	pid;
 	pid_t	pid2;
+	t_cmd	*cmd;
 
 	i = 0;
+	k = 0;
+	cmd = command;
 	ft_creat_pipes(shell, k);
 	pid = fork();
 	if (pid == -1)
@@ -88,7 +91,7 @@ void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
 		return ;
 	}
 	if (pid == 0)
-		first_c(cmd->cmd, shell, k);
+		first_c(cmd, shell, k);
 	else
 	{
 		if (k > 0)
@@ -101,7 +104,7 @@ void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
 				{
 					cmd = cmd->next;
 				}
-				last_c(cmd->cmd, shell, k - 1);
+				last_c(cmd, shell, k - 1);
 			}
 			else
 				ft_close(shell, k);
@@ -114,8 +117,17 @@ void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
 
 void	exec(t_shell *shell, t_cmd *cmd)
 {
-	int		k;
+	int	k;
+	int	l;
 
+	l = 0;
 	k = co_unt(cmd);
-	execute_cmds(cmd, shell, k);
+	if (k == 0)
+	{
+		l = ft_check_builtins(shell, cmd);
+		if (l == 0)
+			execute_cmds(cmd, shell, k);
+	}
+	else
+		execute_cmds(cmd, shell, k);
 }

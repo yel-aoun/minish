@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:48:00 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/16 13:57:19 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 10:38:13 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_valid_name(char	*s)
 	return (ft_check(str[0], k));
 }
 
-void	ft_put_export(t_shell *shell, char *str)
+int	ft_put_export(t_shell *shell, char *str)
 {
 	int		i;
 
@@ -111,4 +111,5 @@ void	ft_put_export(t_shell *shell, char *str)
 	}
 	else
 		ft_up_help(shell, str);
+	return (1);
 }

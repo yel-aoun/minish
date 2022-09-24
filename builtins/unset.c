@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 09:44:12 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/20 16:02:42 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 10:42:47 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,18 @@ char	**update_export(t_shell *shell, char *str)
 	return (export);
 }
 
-void	ft_unset(t_shell *shell, char *str)
+int	ft_unset(t_shell *shell, t_cmd *cmd)
 {
-	if (!str)
-		return ;
-	shell->env = update_env(shell, str);
-	shell->export = update_export(shell, str);
+	int i;
+
+	i = 0;
+	if (!cmd->cmd[1])
+		return (1);
+	while (cmd->cmd[i])
+	{
+		shell->env = update_env(shell, cmd->cmd[i]);
+		shell->export = update_export(shell, cmd->cmd[i]);
+		i++;
+	}
+	return (1);
 }

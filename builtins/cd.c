@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:42:21 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/15 12:21:38 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 10:37:43 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ char	*ft_find(char **new, char *find)
 	return (NULL);
 }
 
-void	ft_cd_help(t_shell *shell)
+void	ft_cd_help(t_shell *shell, t_cmd *cmd)
 {
 	char	*tmp;
 	char	**splt;
 
-	if (shell->cmd_args[1][0] == '~')
+	if (cmd->cmd[1][0] == '~')
 	{
 		tmp = ft_find(shell->env, "HOME");
 		if (tmp != NULL)
@@ -61,24 +61,24 @@ void	ft_cd_help(t_shell *shell)
 			splt = ft_split(tmp, '=');
 			if (chdir(splt[1]) == -1)
 				printf("cd: %s: No such file or directory\n", \
-					shell->cmd_args[1]);
+					cmd->cmd[1]);
 			else
 				ft_norm(shell);
 		}
 	}
-	else if (chdir(shell->cmd_args[1]) == -1)
-		printf("cd: %s: No such file or directory\n", shell->cmd_args[1]);
+	else if (chdir(cmd->cmd[1]) == -1)
+		printf("cd: %s: No such file or directory\n", cmd->cmd[1]);
 	else
 		ft_norm(shell);
 }
 
-void	ft_cd(t_shell *shell)
+int	ft_cd(t_shell *shell, t_cmd *cmd)
 {
 	char	*tmp;
 	char	**splt;
 
-	if (shell->cmd_args[1] != NULL)
-		ft_cd_help(shell);
+	if (cmd->cmd[1] != NULL)
+		ft_cd_help(shell, cmd);
 	else
 	{
 		tmp = ft_find(shell->env, "HOME");
@@ -92,4 +92,5 @@ void	ft_cd(t_shell *shell)
 				ft_norm(shell);
 		}
 	}
+	return (1);
 }
