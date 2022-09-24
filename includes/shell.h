@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 11:28:07 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:17:02 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct shell
 	int		i;
 	int		k;
 	int		exit_status;
+	int		exit_creat;
 }			t_shell;
 
 //utiles/ft_tools.c
@@ -78,11 +79,11 @@ void    ft_get_exec(t_shell *shell, t_cmd *cmd);
 //builtins
 int		ft_cd(t_shell *shell, t_cmd *cmd);
 int		ft_echo(t_cmd *cmd);
-int		ft_put_env(t_shell *shell);
+int		ft_put_env(t_shell *shell, t_cmd *cmd);
 int		ft_put_export(t_shell *shell, char *str);
 int		ft_put_pwd(void);
 int		ft_unset(t_shell *shell, t_cmd *cmd);
-int		ft_exit(t_shell *shell, t_cmd *cmd);
+void	ft_exit(t_shell *shell, t_cmd *cmd);
 
 //builtins/export.c
 int		ft_search(char *str, char c);
@@ -128,6 +129,10 @@ void	ft_up_help(t_shell *shell, char *str);
 
 void	exec(t_shell *shell, t_cmd *cmd);
 
+//src/ft_exec.c
+void    ft_check_her_doc(t_shell *shell, t_cmd *command);
+void    ft_create_pipes_heredoc(t_shell *shell, int k);
+int	ft_count_herdoc_pipes(t_cmd *command);
 
 // get_next_line.c
 // char	*get_next_line(int fd);

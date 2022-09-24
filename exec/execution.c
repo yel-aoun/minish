@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 11:31:50 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:51:47 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,14 @@ void	ex_betw(t_shell *shell, t_cmd *command, int k)
 	}
 }
 
-void	execute_cmds(t_cmd *command, t_shell *shell, int k)
+void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
 {
 	int		i;
 	pid_t	pid;
 	pid_t	pid2;
-	t_cmd	*cmd;
+	// t_cmd	*cmd;
 
 	i = 0;
-	k = 0;
-	cmd = command;
 	ft_creat_pipes(shell, k);
 	pid = fork();
 	if (pid == -1)

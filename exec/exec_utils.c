@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 08:57:45 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 10:20:57 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:59:34 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	command_without_path(t_shell *shell, char **command)
 		if (!check)
 		{
 			shell->command_path = path;
-			free(path);
 			break ;
 		}
 		free(path);

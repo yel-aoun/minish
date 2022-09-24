@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 13:51:37 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/14 10:04:46 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 14:47:25 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,19 @@ void	ft_err_cmd(char *str, int k)
 	{
 		write (2, "command not found\n", \
 			ft_strlen("command not found\n"));
-		exit(0);
+		exit(127);
 	}
 	else if (k == 2)
 	{
 		write (2, "No such file or directory\n", \
 			ft_strlen("No such file or directory\n"));
 		exit (127);
+	}
+	else if (k == 3)
+	{
+		write (2, "INVALIDE ARGUMENT'S\n", \
+			ft_strlen("INVALIDE ARGUMENT'S\n"));
+		return ;
 	}
 }
 

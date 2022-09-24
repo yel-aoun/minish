@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:53:54 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 11:30:47 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 14:18:23 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_check_builtins(t_shell *shell, t_cmd *command)
 	if (ft_strcmp(cmp, "echo") == 0)
 		k = ft_echo(cmd);
 	else if (ft_strcmp(cmp, "env") == 0)
-		k = ft_put_env(shell);
+		k = ft_put_env(shell, cmd);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		k = ft_cd(shell, cmd);
 	else if (ft_strcmp(cmp, "pwd") == 0)

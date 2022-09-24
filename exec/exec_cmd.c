@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:39:10 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 11:25:18 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:56:20 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ void	first_c(t_cmd *cmd, t_shell *shell, int k)
 	if (!builtin)
 	{
 		ft_get_cmd(shell, cmd->cmd);
+		// printf("%s\n", shell->command_path);
 		execve(shell->command_path, cmd->cmd, shell->env);
 	}
+	exit(0);
 	// perror("");
 }
 
@@ -79,6 +81,7 @@ void	between_c(t_cmd	*cmd, t_shell *shell, int i)
 			ft_get_cmd(shell, cmd->cmd);
 			execve(shell->command_path, cmd->cmd, shell->env);
 		}
+		exit(0);
 		// perror("");
 	}
 }
@@ -96,7 +99,8 @@ void	last_c(t_cmd *cmd, t_shell *shell, int i)
 	if (!builtin)
 	{
 		ft_get_cmd(shell, cmd->cmd);
-		execve(shell->command_path, cmd->cmd, shell->env);
+		execve(shell->command_path, cmd->cmd, shell->env); 
 	}
+	exit(0);
 	// perror("");
 }
