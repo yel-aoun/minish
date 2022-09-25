@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 19:03:47 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:35:42 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	ft_count_herdoc_pipes(t_cmd *command)
         {
 			if (j == 0)
 			{
-				if (ft_strcmp(cmd->redirection->type, "<<") == 0)
+				if (ft_strcmp(redirection->type, "<<") == 0)
 				{
 					i++;
 					j = 1;
@@ -166,29 +166,33 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command)
 	int		k;
     char	*limiter;
     int		j;
+	int		i;
 
 	k = 0;
+	i = 0;
 	cmd = command;
     k = ft_count_herdoc_pipes(cmd);
     ft_create_pipes_heredoc(shell, k);
-    // printf("%d\n", k);
     while (cmd)
     {
 		redirection = cmd->redirection;
         while(redirection)
         {
-			if (ft_strcmp(cmd->redirection->type, "<<") == 0)
+			if (ft_strcmp(redirection->type, "<<") == 0)
 			{
+				// printf("%s\n", redirection->value);
+				if (redirection->value == NULL)
+					exit(0);
             	while (1)
             	{
             	    j = 1;
             	    limiter = readline("> ");
-            	    j = ft_strncmp(limiter, cmd->redirection->value, \
-            	        ft_is_longer(limiter, cmd->redirection->value));
+            	    j = ft_strncmp(limiter, redirection->value, \
+            	        ft_is_longer(limiter, redirection->value));
 		    	    if (j)
 		    		{
-		    		    // write(1, limiter, ft_strlen(limiter));
-            	        // write (1, "\n", 1);
+		    		    // write(shell->pip_herdoc[i][1], limiter, ft_strlen(limiter));
+            	        // write (shell->pip_herdoc[i][1], "\n", 1);
 		    		}
 		    	    else
 		    		    break ;
@@ -196,6 +200,7 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command)
 			}
             redirection = redirection->next;
         }
+		i++;
         cmd = cmd->next;
     }
 	cmd = command;
@@ -213,7 +218,7 @@ void    ft_get_exec(t_shell *shell, t_cmd *cmd)
     pid_t id;
     // redir = NULL;
     // shell = NULL;
-
+	
     id = fork();
     // printf("ppppp : %s\n", cmd->redirection->value);
     if (id == 0)

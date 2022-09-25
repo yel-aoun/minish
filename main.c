@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/24 18:34:57 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:31:00 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,14 @@ void	ppp_struct(t_redirection *str)
 
 void collect_redirection(t_redirection *redir, lexer_t *lexer, token_t *token, char **env)
 {
+	token_t	*tok1;
+	
+	tok1 = lexer_get_next_token(lexer, env);
 	redir->type = token->value;
-	redir->value = (lexer_get_next_token(lexer, env))->value;
+	if (tok1 == NULL)
+		redir->value = NULL;
+	else if (tok1->type == token_word)
+		redir->value = tok1->value;
 }
 
 char	*struct_cmd(lexer_t *lexer, token_t *token, char *str, char **env)
@@ -191,23 +197,9 @@ int main(int ac, char **av, char **env)
 				str = NULL;
 			}
 			// pr_struct(cmd);
-			// printf("%s\n", cmd->cmd[0]);
-			// while (cmd)
-    		// {
-    		//     while (cmd->redirection)
-    		//     {
-    		//         printf("cmd->red->type : %s\n", cmd->redirection->type);
-    		//         printf("cmd->red->value : %s\n", cmd->redirection->value);
-    		//         // printf("heeer\n");
-    		//         printf("___________\n");
-    		//         cmd->redirection = cmd->redirection->next;
-    		//     }
-    		//     cmd = cmd->next;
-    		//     printf("we are in next neaud\n");
-    		// }
 			ft_get_exec(shell, cmd);
 			ft_free_struct(&cmd);
-			free (str); 
+			free (str);
 		}
 	}
 }

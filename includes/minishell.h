@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 12:06:37 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/22 16:30:02 by araysse          ###   ########.fr       */
+/*   Updated: 2022/09/25 10:55:23 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ typedef struct redirec
 typedef struct t_comand
 {
 	char	**cmd;
+	// int		infile; //0
+	// int		outfile;// 1
+	// int		*pipe_herdoc;
 	t_redirection	*redirection;
 	struct t_comand	*next;
 }	t_cmd;
