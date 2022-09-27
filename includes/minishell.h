@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 12:06:37 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/25 10:55:23 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:33:00 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ typedef struct redirec
 typedef struct t_comand
 {
 	char	**cmd;
-	// int		infile; //0
-	// int		outfile;// 1
-	// int		*pipe_herdoc;
+	int 	fd[2];
+	int		infile;
+	int		outfile;
 	t_redirection	*redirection;
 	struct t_comand	*next;
 }	t_cmd;

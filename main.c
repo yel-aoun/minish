@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/25 14:31:00 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:38:38 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	pr_struct(t_cmd *str)
 			printf(" ---cmd[%d]--->   %s\n",i, cmd->cmd[i]);
 			i++;
 		}
+		printf("infile : %d\n", cmd->infile);
+		printf("outfile : %d\n", cmd->outfile);
 		while (cmd->redirection)
 		{
 			printf("redirection : %s\n", cmd->redirection->type);
@@ -100,6 +102,8 @@ void collect_redirection(t_redirection *redir, lexer_t *lexer, token_t *token, c
 	tok1 = lexer_get_next_token(lexer, env);
 	redir->type = token->value;
 	if (tok1 == NULL)
+		redir->value = NULL;
+	else if (tok1->type != token_word)
 		redir->value = NULL;
 	else if (tok1->type == token_word)
 		redir->value = tok1->value;
@@ -203,7 +207,4 @@ int main(int ac, char **av, char **env)
 		}
 	}
 }
-
-
-
 	

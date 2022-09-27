@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 18:17:02 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:18:00 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct shell
 	char	**path;
 	int		i;
 	int		k;
+	int		h_c;
 	int		exit_status;
 	int		exit_creat;
 }			t_shell;
@@ -130,9 +131,9 @@ void	ft_up_help(t_shell *shell, char *str);
 void	exec(t_shell *shell, t_cmd *cmd);
 
 //src/ft_exec.c
-void    ft_check_her_doc(t_shell *shell, t_cmd *command);
+void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k);
 void    ft_create_pipes_heredoc(t_shell *shell, int k);
-int	ft_count_herdoc_pipes(t_cmd *command);
+int		ft_count_herdoc_pipes(t_cmd *command);
 
 // get_next_line.c
 // char	*get_next_line(int fd);

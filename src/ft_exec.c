@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/25 14:35:42 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:55:34 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_open(int flags, char *filename, t_shell *shell)
 		ft_check_access(filename, 0, shell);
 		if (shell->exit_creat == 1)
 			return ;
-		i = open(filename, O_RDONLY);
+		i = open(filename, O_RDWR);
 	}
 	else if (flags == 2)
 	{
@@ -147,66 +147,91 @@ void    ft_create_pipes_heredoc(t_shell *shell, int k)
 
 	i = 0;
 	shell->pip_herdoc = malloc(sizeof(int *) * k);
-	// printf("heeer\n");
 	if (!shell->pip_herdoc)
 		return ;
 	while (i < k)
 	{
 		shell->pip_herdoc[i] = malloc(sizeof(int) * 2);
-		pipe(shell->pip_herdoc[i]);
 		i++;
 	}
 }
+void	ft_open_heredoc(t_shell *shell, t_redirection *redirection, int i)
+{
+	int		j;
+	char	*limiter;
 
-void    ft_check_her_doc(t_shell *shell, t_cmd *command)
+	j = 0;
+	close(shell->pip_herdoc[i][0]);
+	while (1)
+	{
+	    j = 1;
+	    limiter = readline("> ");
+	    j = ft_strncmp(limiter, redirection->value, \
+	        ft_is_longer(limiter, redirection->value));
+	    if (j)
+		{
+		    write(shell->pip_herdoc[i][1], limiter, ft_strlen(limiter));
+	        write(shell->pip_herdoc[i][1], "\n", 1);
+		}
+	    else
+		    break ;
+	}
+}
+
+void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k)
 {
     t_cmd   *cmd;
 	t_redirection *redirection;
-    // shell = NULL;
-	int		k;
-    char	*limiter;
-    int		j;
+	pid_t	id;
 	int		i;
+	int		new_neud;
 
-	k = 0;
-	i = 0;
 	cmd = command;
-    k = ft_count_herdoc_pipes(cmd);
-    ft_create_pipes_heredoc(shell, k);
+	k = 0;
+	i = -1;
+	new_neud = 0;
     while (cmd)
     {
 		redirection = cmd->redirection;
+		if (redirection)
+			new_neud = 1;
         while(redirection)
         {
 			if (ft_strcmp(redirection->type, "<<") == 0)
 			{
-				// printf("%s\n", redirection->value);
+				if (new_neud == 1)
+				{
+					i++;
+					new_neud = 0;
+				}
 				if (redirection->value == NULL)
-					exit(0);
-            	while (1)
-            	{
-            	    j = 1;
-            	    limiter = readline("> ");
-            	    j = ft_strncmp(limiter, redirection->value, \
-            	        ft_is_longer(limiter, redirection->value));
-		    	    if (j)
-		    		{
-		    		    // write(shell->pip_herdoc[i][1], limiter, ft_strlen(limiter));
-            	        // write (shell->pip_herdoc[i][1], "\n", 1);
-		    		}
-		    	    else
-		    		    break ;
-            	}
+					break;
+				pipe(shell->pip_herdoc[i]);
+				// pipe(cmd->fd);
+				id = fork();
+    			if (id == 0)
+				{
+					ft_open_heredoc(shell, redirection, i);
+					exit (0);
+				}
+				else
+       				wait(NULL);	
+			cmd->infile = shell->pip_herdoc[i][0];
+			cmd->outfile = shell->pip_herdoc[i][1];
+			// printf("%d\n", cmd->infile);
+			// printf("%d\n", cmd->outfile);
 			}
             redirection = redirection->next;
         }
-		i++;
+		new_neud = 0;
         cmd = cmd->next;
     }
 	cmd = command;
 	redirection = cmd->redirection;
-	ft_open_files(shell, cmd);
-    exit (0);
+	// ft_open_files(shell, cmd);
+	// cmd->infile = shell->pip_herdoc[0][0];
+	// cmd->outfile = shell->pip_herdoc[0][1];
+	// close (cmd->outfile);
 }
 // void    ft_open_files(t_shell *shell, t_cmd *cmd)
 // {
@@ -215,19 +240,12 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command)
 
 void    ft_get_exec(t_shell *shell, t_cmd *cmd) 
 {   
-    pid_t id;
-    // redir = NULL;
-    // shell = NULL;
-	
-    id = fork();
-    // printf("ppppp : %s\n", cmd->redirection->value);
-    if (id == 0)
-        ft_check_her_doc(shell, cmd);
-        // ft_open_files(shell, cmd);
-    else
-        wait(NULL);
-	// cmd = cmd->next;
-	// printf("%s\n", cmd->cmd[0]);
+	int	k;
+
+	k = 0;
+	k = ft_count_herdoc_pipes(cmd);
+	ft_create_pipes_heredoc(shell, k);
+    ft_check_her_doc(shell, cmd, k);
     exec(shell, cmd);
     // while (cmd)
     // int i = 0;

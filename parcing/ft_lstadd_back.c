@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 17:55:35 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/20 12:44:44 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/26 11:17:19 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	ft_lstnew(t_cmd **cmd, t_redirection* redir, char* str)
 	(*cmd) = malloc(sizeof(t_cmd));
 	(*cmd)->cmd = ft_tsplit(str, 127);
 	(*cmd)->redirection = redir;
+	(*cmd)->infile = 0;
+	(*cmd)->outfile = 1;
 }
 
 void	ft_lstadd_bak(t_redirection **alst, t_redirection *new)

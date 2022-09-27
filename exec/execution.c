@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/25 14:37:51 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:42:06 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,27 @@
 // {
 // 	char	**cmd;
 // }		t_exe;
+
+void	ft_close_files(t_cmd *command)
+{
+	t_cmd *cmd;
+	t_redirection *redirection;
+
+	cmd = command;
+	while (cmd)
+	{	redirection = cmd->redirection;
+		while (redirection)
+		{
+			if (ft_strcmp(redirection->type, "<<") == 0)
+			{
+				close(cmd->infile);
+				close(cmd->outfile);
+			}
+			redirection = redirection->next;
+		}
+		cmd = cmd->next;
+	}
+}
 
 void	ft_close(t_shell *shell, int k)
 {
@@ -73,14 +94,16 @@ void	ex_betw(t_shell *shell, t_cmd *command, int k)
 	}
 }
 
-void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
+void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 {
 	int		i;
 	pid_t	pid;
 	pid_t	pid2;
+	t_cmd	*cmd;
 	// t_cmd	*cmd;
 
 	i = 0;
+	cmd = command;
 	ft_creat_pipes(shell, k);
 	pid = fork();
 	if (pid == -1)
@@ -105,8 +128,16 @@ void	execute_cmds(t_cmd *cmd, t_shell *shell, int k)
 				last_c(cmd, shell, k - 1);
 			}
 			else
+			{
+				cmd = command;
 				ft_close(shell, k);
+			}
 		}
+		ft_close_files(cmd);
+		// close(cmd->infile);
+		// close(cmd->outfile);
+		// close( cmd->infile);
+		// close( cmd->outfile);
 		while (wait(NULL) != -1)
 		{
 		}

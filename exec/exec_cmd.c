@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:39:10 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/25 14:42:49 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/27 18:26:32 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,44 @@ void	first_c(t_cmd *cmd, t_shell *shell, int k)
 {
 	int	builtin;
 	builtin = 0;
-
+	if (cmd->cmd[0] == NULL)
+	{
+		if (k > 0)
+		{
+			close(shell->pipes[0][0]);
+			close(shell->pipes[0][1]);
+		}
+		if(cmd->infile != 0)
+		{
+			close(cmd->infile);
+			close(cmd->outfile);
+		}
+		exit(0);
+	}
 	if (k > 0)
 	{
 		close(shell->pipes[0][0]);
+		if (cmd->infile != 0)
+		{
+			dup2(cmd->infile, 0);
+			close(cmd->outfile);
+		}
 		dup2(shell->pipes[0][1], 1);
 		close(shell->pipes[0][0]);
 		close(shell->pipes[0][1]);
 	}
+	else if(cmd->infile != 0)
+	{
+		close(cmd->outfile);
+		dup2(cmd->infile, 0);
+		close(cmd->infile);
+		close(cmd->outfile);
+	}
+	// close(cmd->infile);
 	builtin = ft_check_builtins(shell, cmd);
 	if (!builtin)
 	{
 		ft_get_cmd(shell, cmd->cmd);
-		printf("%s\n", shell->command_path);
-		// printf("%s\n", shell->command_path);
 		execve(shell->command_path, cmd->cmd, shell->env);
 	}
 	exit(0);
@@ -68,10 +92,34 @@ void	between_c(t_cmd	*cmd, t_shell *shell, int i)
 	}
 	if (pid == 0)
 	{
+		if (cmd->cmd[0] == NULL)
+		{
+			// close(shell->pipes[i][0]);
+			// close(shell->pipes[i][1]);
+			// close(shell->pipes[i + 1][0]);
+			// close(shell->pipes[i + 1][1]);
+			if(cmd->infile != 0)
+			{
+				close(cmd->infile);
+				close(cmd->outfile);
+			}
+			exit(0);
+		}
+		// if (cmd->cmd[0] == NULL)
+		// 	exit(0);
 		close(shell->pipes[i][1]);
 		close(shell->pipes[i + 1][0]);
-		dup2(shell->pipes[i][0], 0);
+		if (cmd->infile != 0)
+		{
+			dup2(cmd->infile, 0);
+			close(cmd->infile);
+			close(cmd->outfile);
+		}
+		else
+			dup2(shell->pipes[i][0], 0);
 		dup2(shell->pipes[i + 1][1], 1);
+		// close (cmd->infile);
+		// close(cmd->outfile);
 		close(shell->pipes[i][0]);
 		close(shell->pipes[i][1]);
 		close(shell->pipes[i + 1][0]);
@@ -92,15 +140,31 @@ void	last_c(t_cmd *cmd, t_shell *shell, int i)
 	int	builtin;
 
 	builtin = 0;
+	if (cmd->cmd[0] == NULL)
+	{
+		close(shell->pipes[i][0]);
+		close(shell->pipes[i][1]);
+		close(cmd->infile);
+		close(cmd->outfile);
+		exit(0);
+	}
 	close(shell->pipes[i][1]);
-	dup2(shell->pipes[i][0], 0);
+	// fprintf(stderr,"infile %d\n", cmd-> infile);
+	if (cmd->infile != 0)
+	{
+		dup2(cmd->infile, 0);
+		close(cmd->infile);
+		close(cmd->outfile);
+	}
+	else
+		dup2(shell->pipes[i][0], 0);
 	close(shell->pipes[i][0]);
 	close(shell->pipes[i][1]);
+	// fprintf(stderr,"HEEEEEER\n");
 	builtin = ft_check_builtins(shell, cmd);
 	if (!builtin)
 	{
 		ft_get_cmd(shell, cmd->cmd);
-		printf("%s\n", shell->command_path);
 		execve(shell->command_path, cmd->cmd, shell->env); 
 	}
 	exit(0);
