@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/27 17:55:34 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/28 10:50:48 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,11 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k)
 					new_neud = 0;
 				}
 				if (redirection->value == NULL)
+				{
+					shell->h_c = 1;
+					printf("bash: syntax error near unexpected token\n");
 					break;
+				}
 				pipe(shell->pip_herdoc[i]);
 				// pipe(cmd->fd);
 				id = fork();
@@ -243,10 +247,12 @@ void    ft_get_exec(t_shell *shell, t_cmd *cmd)
 	int	k;
 
 	k = 0;
+	shell->h_c = 0;
 	k = ft_count_herdoc_pipes(cmd);
 	ft_create_pipes_heredoc(shell, k);
     ft_check_her_doc(shell, cmd, k);
-    exec(shell, cmd);
+	if (shell->h_c == 0)
+    	exec(shell, cmd);
     // while (cmd)
     // int i = 0;
     // while (cmd)
