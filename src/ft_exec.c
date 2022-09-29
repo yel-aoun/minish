@@ -6,105 +6,33 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/28 10:50:48 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/28 17:58:51 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/shell.h"
 
-void	ft_help_print_err_fille(char *err)
-{
-	write (2, "bash: ", 6);
-	write (2, err, ft_strlen(err));
-	write (2, ":", 1);
-}
-
-void	ft_check_access(char *arg, int n, t_shell *shell)
-{
-	if (n == 0)
-	{
-		if (access(arg, R_OK) == -1)
-		{
-			ft_help_print_err_fille(arg);
-			perror("");
-			exit(1);
-		}
-	}
-	if (n == 1)
-	{
-		if (access(arg, W_OK) == -1)
-		{
-			ft_help_print_err_fille(arg);
-			perror("");
-			shell->exit_creat = 1;
-		}
-	}
-	if (n == 2)
-	{
-		if (access(arg, F_OK) == -1)
-		{
-			ft_help_print_err_fille(arg);
-			perror("");
-			exit(1);
-		}
-	}
-}
-
-void	ft_open(int flags, char *filename, t_shell *shell)
-{
-	int	i;
-
-	i = 0;
-	// printf("ima heeer with flage %d\n", flags);
-	// printf("ima heeer with file %s\n", filename);
-	if (flags == 1)
-	{
-		ft_check_access(filename, 2, shell);
-		ft_check_access(filename, 0, shell);
-		if (shell->exit_creat == 1)
-			return ;
-		i = open(filename, O_RDWR);
-	}
-	else if (flags == 2)
-	{
-		i = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0600);
-		ft_check_access(filename, 2, shell);
-		ft_check_access(filename, 1, shell);
-	}
-	else if (flags == 3)
-	{
-		i = open(filename, O_CREAT | O_RDWR | O_APPEND, 0600);
-		ft_check_access(filename, 2, shell);
-		ft_check_access(filename, 1, shell);
-	}
-}
-
-void	ft_open_files(t_shell *shell, t_cmd *command)
+void	ft_check_valide_files(t_shell *shell, t_cmd *command)
 {
 	int 			i;
 	t_cmd			*cmd;
 	t_redirection	*redirection;
 
 	i = 0;
-	shell->exit_creat = 0;
+	shell->err = 0;
 	cmd = command;
 	while (cmd)
 	{
-		// printf("checkk\n");
-		shell->exit_creat = 0;
 		redirection = cmd->redirection;
 		while(redirection)
 		{
-			if(ft_strcmp(redirection->type, "<") == 0)
-				ft_open(1, redirection->value, shell);
-			else if(ft_strcmp(redirection->type, ">") == 0)
-				ft_open(2, redirection->value, shell);
-			else if(ft_strcmp(redirection->type, ">>") == 0)
-				ft_open(3, redirection->value, shell);
-			if (shell->exit_creat == 1)
-				break;
-			else
-				redirection = redirection->next;
+			if((ft_strcmp(redirection->type, "<") == 0 && redirection->value == NULL))
+				shell->err = 1;
+			else if((ft_strcmp(redirection->type, ">") == 0 && redirection->value == NULL))
+				shell->err = 1;
+			else if((ft_strcmp(redirection->type, ">>") == 0 && redirection->value == NULL))
+				shell->err = 1;
+			redirection = redirection->next;
 		}
 		cmd = cmd->next;
 	}
@@ -222,6 +150,7 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k)
        				wait(NULL);	
 			cmd->infile = shell->pip_herdoc[i][0];
 			cmd->outfile = shell->pip_herdoc[i][1];
+			close(cmd->outfile);
 			// printf("%d\n", cmd->infile);
 			// printf("%d\n", cmd->outfile);
 			}
@@ -233,9 +162,6 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k)
 	cmd = command;
 	redirection = cmd->redirection;
 	// ft_open_files(shell, cmd);
-	// cmd->infile = shell->pip_herdoc[0][0];
-	// cmd->outfile = shell->pip_herdoc[0][1];
-	// close (cmd->outfile);
 }
 // void    ft_open_files(t_shell *shell, t_cmd *cmd)
 // {
@@ -248,21 +174,15 @@ void    ft_get_exec(t_shell *shell, t_cmd *cmd)
 
 	k = 0;
 	shell->h_c = 0;
-	k = ft_count_herdoc_pipes(cmd);
-	ft_create_pipes_heredoc(shell, k);
-    ft_check_her_doc(shell, cmd, k);
-	if (shell->h_c == 0)
-    	exec(shell, cmd);
-    // while (cmd)
-    // int i = 0;
-    // while (cmd)
-    // {
-    //      i = 0;
-    //     while (cmd->cmd[i])
-    //     {
-    //         printf("cmd[%d] : %s\n", i, cmd->cmd[i]);
-    //         i++;
-    //     }
-    //     cmd = cmd->next;
-    // }
+	ft_check_valide_files(shell, cmd);
+	if (shell->err == 0)
+	{
+		k = ft_count_herdoc_pipes(cmd);
+		ft_create_pipes_heredoc(shell, k);
+    	ft_check_her_doc(shell, cmd, k);
+		if (shell->h_c == 0)
+    		exec(shell, cmd);
+	}
+	else
+		printf("bash: syntax error near unexpected token\n");
 }

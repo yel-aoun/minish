@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/26 18:18:00 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 12:43:45 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include<stdio.h>
 # include <unistd.h>
 # include <sys/types.h>
+# include <signal.h>
 # include <string.h>
 # include <stdlib.h>
 # include "../libft/libft.h"
@@ -27,13 +28,6 @@
 # define GREEN "\033[0;32m"
 # define WHITE "\033[0;37m"
 # define YELLOW "\033[0;33m"
-typedef struct sh
-{
-	int	i;
-	int	j;
-	int	k;
-	int	l;
-}			t_sh;
 
 typedef struct shell
 {
@@ -47,12 +41,17 @@ typedef struct shell
 	char	**command;
 	char	*command_path;
 	char	**path;
+	int		err;
 	int		i;
 	int		k;
+	int		in;
+	int		out;
 	int		h_c;
 	int		exit_status;
 	int		exit_creat;
 }			t_shell;
+
+t_shell	g_glob[3];
 
 //utiles/ft_tools.c
 int		ft_strcmp(char *s1, char *s2);
@@ -134,6 +133,8 @@ void	exec(t_shell *shell, t_cmd *cmd);
 void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k);
 void    ft_create_pipes_heredoc(t_shell *shell, int k);
 int		ft_count_herdoc_pipes(t_cmd *command);
+
+void	ft_open_files(t_shell *shell, t_cmd *command);
 
 // get_next_line.c
 // char	*get_next_line(int fd);

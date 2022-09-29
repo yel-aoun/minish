@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/28 10:45:46 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 12:52:15 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,23 @@ t_redirection	*struct_redir(token_t *token, lexer_t *lexer, char **env)
 	return (redir);
 }
 
+void	ft_sig_int(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+void	ft_exit_sig(char *str)
+{
+	printf("%s\n", str);
+	exit(0);
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_shell	*shell;
@@ -185,7 +202,11 @@ int main(int ac, char **av, char **env)
 	while(1)
 	{
 		str = NULL;
-        inpt = readline(YELLOW "minishell> " WHITE);
+		signal(SIGINT, ft_sig_int);
+		signal(SIGQUIT, SIG_IGN);
+        inpt = readline(YELLOW "bash-0.0 " WHITE);
+		if (!inpt)
+			ft_exit_sig("exit");
 		if (ft_strcmp(inpt, ""))
 		{
         	add_history(inpt);
@@ -215,8 +236,8 @@ int main(int ac, char **av, char **env)
 				redir = NULL;
 				str = NULL;
 			}
-			// pr_struct(cmd);
-			ft_get_exec(shell, cmd);
+			pr_struct(cmd);
+			// ft_get_exec(shell, cmd);
 			ft_free_struct(&cmd);
 			free (str);
 		}

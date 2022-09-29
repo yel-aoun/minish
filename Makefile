@@ -6,7 +6,7 @@
 #    By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/06 13:46:37 by yel-aoun          #+#    #+#              #
-#    Updated: 2022/09/26 17:31:35 by yel-aoun         ###   ########.fr        #
+#    Updated: 2022/09/29 11:34:45 by yel-aoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ $(LIB) :
 	@cd libft && make
 
 $(NAME) : $(LIB) $(OBJ)
-	@$(CC) $(OBJ) $(LIB) -o $(NAME) -lreadline #-L ~/goinfre/.brew/opt/readline/lib -I ~/goinfre/.brew/opt/readline/include  #-fsanitize=address
+	@$(CC) $(OBJ) $(LIB) -lreadline -L ~/goinfre/.brew/opt/readline/lib -I ~/goinfre/.brew/opt/readline/include -o $(NAME)
 
 clean :
 	@rm -f $(OBJ) && cd libft && make clean

@@ -21,7 +21,7 @@ char	*ft_tstrjoin(char *s1, char *s2)
 
 	i = 0;
 	if (!s2)
-		return (NULL);
+		return (s1);
 	if (!s1)
 		return (s2);
 	str = malloc((ft_tstrlen(s1) + ft_tstrlen(s2) +1) * sizeof(char));

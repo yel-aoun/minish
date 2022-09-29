@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 11:06:52 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/27 14:26:08 by araysse          ###   ########.fr       */
+/*   Updated: 2022/09/28 12:35:14 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ token_t *lexer_collect_id(lexer_t *lexer, char **env)
 		str = lexer_collect_single_quot(lexer);
 	value = realloc(value, (ft_tstrlen(value) + ft_tstrlen(str) + 1) * sizeof(char));
 	ft_strcat(value, str);
-	// lexer_advance(lexer);
+	if (value && !value[0])
+        return (init_token(token_word, NULL));
 	return (init_token(token_word, value));
 }
 
