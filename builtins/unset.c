@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 09:44:12 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/29 10:54:55 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:40:57 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ int	ft_unset(t_shell *shell, t_cmd *cmd)
 		shell->export = update_export(shell, cmd->cmd[i]);
 		i++;
 	}
+	g_glob[1] = 0;
 	return (1);
 }

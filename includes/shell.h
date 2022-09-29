@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/29 12:43:45 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:43:28 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <string.h>
 # include <stdlib.h>
 # include "../libft/libft.h"
-# include "../get_next/get_next_line.h"
 # include "minishell.h"
 
 # define GREEN "\033[0;32m"
@@ -42,6 +41,8 @@ typedef struct shell
 	char	*command_path;
 	char	**path;
 	int		err;
+	int		*prosess_id;
+	int		id;
 	int		i;
 	int		k;
 	int		in;
@@ -49,9 +50,10 @@ typedef struct shell
 	int		h_c;
 	int		exit_status;
 	int		exit_creat;
+	int		t_sig_C;
 }			t_shell;
 
-t_shell	g_glob[3];
+int	g_glob[2];
 
 //utiles/ft_tools.c
 int		ft_strcmp(char *s1, char *s2);
@@ -72,7 +74,7 @@ int		ft_is_n(char *str);
 
 //src/ft_init.c
 void	ft_init_env(t_shell *shell, char **new);
-int	ft_check_builtins(t_shell *shell, t_cmd *command);
+int	ft_check_builtins(t_shell *shell, t_cmd *command, int p);
 
 void    ft_get_exec(t_shell *shell, t_cmd *cmd);
 
@@ -83,7 +85,7 @@ int		ft_put_env(t_shell *shell, t_cmd *cmd);
 int		ft_put_export(t_shell *shell, char *str);
 int		ft_put_pwd(void);
 int		ft_unset(t_shell *shell, t_cmd *cmd);
-void	ft_exit(t_shell *shell, t_cmd *cmd);
+void	ft_exit(t_cmd *cmd, int p);
 
 //builtins/export.c
 int		ft_search(char *str, char c);
@@ -135,6 +137,9 @@ void    ft_create_pipes_heredoc(t_shell *shell, int k);
 int		ft_count_herdoc_pipes(t_cmd *command);
 
 void	ft_open_files(t_shell *shell, t_cmd *command);
+
+//signals//main.c
+void	ft_sig_int(int sig);
 
 // get_next_line.c
 // char	*get_next_line(int fd);

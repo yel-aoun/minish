@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 12:07:15 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 09:07:10 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:49:02 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ void	ft_up_help(t_shell *shell, char *str)
 		if (i == 1)
 			shell->env = ft_add_env(shell, shell->env, str);
 		shell->export = ft_add_export(shell, shell->export, str);
+		g_glob[1] = 0;
 	}
 	else
+	{
 		printf("bash: export: `%s': not a valid identifier\n", str);
+		g_glob[1] = 1;
+	}
 }

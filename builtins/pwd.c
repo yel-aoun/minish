@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:44:19 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 13:18:28 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:42:21 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ int	ft_put_pwd(void)
 	s = getcwd(NULL, 0);
 	write (1, s, strlen(s));
 	write (1, "\n", 1);
+	g_glob[1] = 0;
 	return (1);
 }

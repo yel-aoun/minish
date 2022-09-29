@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/29 10:36:49 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:22:58 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,24 +202,46 @@ void	ex_betw(t_shell *shell, t_cmd *command, int k)
 	}
 }
 
+void	ft_wait_childs(t_shell *shell, int k)
+{
+	int	i;
+	int	stat;
+
+	i = 0;
+	stat = 0;
+	while (i < k)
+	{
+		waitpid(shell->prosess_id[i], &stat, 0);
+		if (WIFEXITED(stat))
+			g_glob[1] = WEXITSTATUS(stat);
+		if (stat == 2)
+			g_glob[1] = 130;
+		if (stat == 3)
+			g_glob[1] = 131;
+		i++;
+	}
+}
+
 void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 {
 	int		i;
-	pid_t	pid;
-	pid_t	pid2;
 	t_cmd	*cmd;
 	// t_cmd	*cmd;
 
 	i = 0;
 	cmd = command;
+	shell->id = 0;
 	ft_creat_pipes(shell, k);
-	pid = fork();
-	if (pid == -1)
+	shell->prosess_id = malloc(sizeof(int) * (k + 1));
+	if (!shell->prosess_id)
+		return ;
+	shell->prosess_id[shell->id] = fork();
+	if (shell->prosess_id[shell->id] == -1)
 	{
 		printf("bash: fork: Resource temporarily unavailable\n");
 		return ;
 	}
-	if (pid == 0)
+	if (shell->prosess_id[shell->id] == 0)
 	{
 		ft_open_files(shell, cmd);
 		if (shell->exit_creat == 0)
@@ -232,8 +254,9 @@ void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 		if (k > 0)
 		{
 			ex_betw(shell, cmd, k);
-			pid2 = fork();
-			if (pid2 == 0)
+			shell->id++;
+			shell->prosess_id[shell->id] = fork();
+			if (shell->prosess_id[shell->id] == 0)
 			{
 				while (cmd->next)
 				{
@@ -241,10 +264,7 @@ void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 				}
 				ft_open_files(shell, cmd);
 				if (shell->exit_creat == 0)
-				{
 					last_c(cmd, shell, k - 1);
-					fprintf(stderr,"heeeeeer\n");
-				}
 				else
 					exit(0);
 			}
@@ -252,12 +272,10 @@ void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 			{
 				cmd = command;
 				ft_close(shell, k);
-				// ft_close_files(cmd);
+				ft_close_files(cmd);
 			}
 		}
-		while (wait(NULL) != -1)
-		{
-		}
+		ft_wait_childs(shell, (k + 1));
 	}
 }
 
@@ -270,7 +288,7 @@ void	exec(t_shell *shell, t_cmd *cmd)
 	k = co_unt(cmd);
 	if (k == 0)
 	{
-		l = ft_check_builtins(shell, cmd);
+		l = ft_check_builtins(shell, cmd,0);
 		if (l == 0)
 			execute_cmds(cmd, shell, k);
 	}

@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/29 12:52:15 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:30:32 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,9 +198,11 @@ int main(int ac, char **av, char **env)
 
 	cmd = NULL;
 	shell = malloc(sizeof(t_shell));
+	g_glob[1] = 0;
 	ft_init_env(shell, env);
 	while(1)
 	{
+		g_glob[0] = 0;
 		str = NULL;
 		signal(SIGINT, ft_sig_int);
 		signal(SIGQUIT, SIG_IGN);
@@ -236,8 +238,8 @@ int main(int ac, char **av, char **env)
 				redir = NULL;
 				str = NULL;
 			}
-			pr_struct(cmd);
-			// ft_get_exec(shell, cmd);
+			// pr_struct(cmd);
+			ft_get_exec(shell, cmd);
 			ft_free_struct(&cmd);
 			free (str);
 		}

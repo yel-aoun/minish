@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:42:21 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 10:37:43 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:39:48 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_norm(t_shell *shell)
 	shell->env = ft_pwd(shell->env);
 	shell->export = ft_oldpwd(shell->export);
 	shell->export = ft_pwd(shell->export);
+	g_glob[1] = 0;
 }
 
 char	*ft_find(char **new, char *find)
@@ -60,14 +61,20 @@ void	ft_cd_help(t_shell *shell, t_cmd *cmd)
 		{
 			splt = ft_split(tmp, '=');
 			if (chdir(splt[1]) == -1)
+			{
 				printf("cd: %s: No such file or directory\n", \
 					cmd->cmd[1]);
+				g_glob[1] = 1;
+			}
 			else
 				ft_norm(shell);
 		}
 	}
 	else if (chdir(cmd->cmd[1]) == -1)
+	{
 		printf("cd: %s: No such file or directory\n", cmd->cmd[1]);
+		g_glob[1] = 1;
+	}
 	else
 		ft_norm(shell);
 }
@@ -86,8 +93,11 @@ int	ft_cd(t_shell *shell, t_cmd *cmd)
 		{
 			splt = ft_split(tmp, '=');
 			if (chdir(splt[1]) == -1)
+			{
 				printf("cd: %s: No such file or directory\n", \
 					shell->cmd_args[1]);
+				g_glob[1] = 1;
+			}
 			else
 				ft_norm(shell);
 		}

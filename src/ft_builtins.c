@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:53:54 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 14:18:23 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:03:07 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_lower(char *str)
 	return (str);
 }
 
-int	ft_check_builtins(t_shell *shell, t_cmd *command)
+int	ft_check_builtins(t_shell *shell, t_cmd *command, int p)
 {
 	char	*cmp;
 	t_cmd 	*cmd;
@@ -53,7 +53,7 @@ int	ft_check_builtins(t_shell *shell, t_cmd *command)
 	else if (ft_strcmp (cmd->cmd[0], "exit") == 0)
 	{
 		k = 1;
-		ft_exit(shell, cmd);
+		ft_exit(cmd, p);
 	}
 	// else
 	// 	printf("bash: %s: command not found\n", cmd->cmd[0]);

@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 11:06:52 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/28 12:35:14 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:25:24 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*lexer_collect_string(lexer_t *lexer, char **env)
 		
 	while (lexer->c != '"')
 	{
-		if (lexer->contents[lexer->i + 1] == '\0')
+		if (lexer->contents[lexer->i] == '\0')
 			return (ft_eror(1));
 		s = find_in_env(lexer, env);
 		value = realloc(value, (ft_tstrlen(value) + ft_tstrlen(s) + 1) * sizeof(char));

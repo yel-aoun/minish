@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:39:10 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/29 10:43:03 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:17:54 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	first_c(t_cmd *cmd, t_shell *shell, int k)
 		close(cmd->infile);
 		close(cmd->outfile);
 	}
-	builtin = ft_check_builtins(shell, cmd);
+	builtin = ft_check_builtins(shell, cmd, 1);
 	if (!builtin)
 	{
 		ft_get_cmd(shell, cmd->cmd);
@@ -78,17 +78,17 @@ void	first_c(t_cmd *cmd, t_shell *shell, int k)
 
 void	between_c(t_cmd	*cmd, t_shell *shell, int i)
 {
-	pid_t	pid;
 	int		builtin;
 
-	pid = fork();
+	shell->id++;
+	shell->prosess_id[shell->id] = fork();
 	builtin = 0;
-	if (pid == -1)
+	if (shell->prosess_id[shell->id] == -1)
 	{
 		printf("bash: fork: Resource temporarily unavailable\n");
 		return ;
 	}
-	if (pid == 0)
+	if (shell->prosess_id[shell->id] == 0)
 	{
 		ft_open_files(shell, cmd);
 		if (shell->exit_creat == 1)
@@ -117,7 +117,7 @@ void	between_c(t_cmd	*cmd, t_shell *shell, int i)
 		close(shell->pipes[i][1]);
 		close(shell->pipes[i + 1][0]);
 		close(shell->pipes[i + 1][1]);
-		builtin = ft_check_builtins(shell, cmd);
+		builtin = ft_check_builtins(shell, cmd, 1);
 		if (!builtin)
 		{
 			ft_get_cmd(shell, cmd->cmd);
@@ -150,7 +150,7 @@ void	last_c(t_cmd *cmd, t_shell *shell, int i)
 		dup2(shell->pipes[i][0], 0);
 	close(shell->pipes[i][0]);
 	close(shell->pipes[i][1]);
-	builtin = ft_check_builtins(shell, cmd);
+	builtin = ft_check_builtins(shell, cmd, 1);
 	if (!builtin)
 	{
 		ft_get_cmd(shell, cmd->cmd);

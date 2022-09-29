@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 19:22:21 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 10:42:10 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:44:50 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	ft_echo(t_cmd *cmd)
 	}
 	if (endl)
 		ft_putchar('\n');
+	g_glob[1] = 0;
 	return (1);
 	//shell->exit = 0;
 }

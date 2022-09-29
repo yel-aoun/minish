@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/28 17:58:51 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/29 15:50:09 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,13 @@ void	ft_open_heredoc(t_shell *shell, t_redirection *redirection, int i)
 	while (1)
 	{
 	    j = 1;
+		signal(SIGINT, SIG_DFL);
 	    limiter = readline("> ");
+		if (!limiter)
+		{
+			free(limiter);
+			exit(0);
+		}
 	    j = ft_strncmp(limiter, redirection->value, \
 	        ft_is_longer(limiter, redirection->value));
 	    if (j)
@@ -102,7 +108,10 @@ void	ft_open_heredoc(t_shell *shell, t_redirection *redirection, int i)
 	        write(shell->pip_herdoc[i][1], "\n", 1);
 		}
 	    else
+		{
+			free(limiter);
 		    break ;
+		}
 	}
 }
 
@@ -112,12 +121,14 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k)
 	t_redirection *redirection;
 	pid_t	id;
 	int		i;
+	int		seg;
 	int		new_neud;
 
 	cmd = command;
 	k = 0;
 	i = -1;
 	new_neud = 0;
+	seg = 0;
     while (cmd)
     {
 		redirection = cmd->redirection;
@@ -147,12 +158,14 @@ void    ft_check_her_doc(t_shell *shell, t_cmd *command, int k)
 					exit (0);
 				}
 				else
-       				wait(NULL);	
-			cmd->infile = shell->pip_herdoc[i][0];
-			cmd->outfile = shell->pip_herdoc[i][1];
-			close(cmd->outfile);
-			// printf("%d\n", cmd->infile);
-			// printf("%d\n", cmd->outfile);
+       				waitpid(id, &seg, 0);
+				if (seg == 2)
+				{
+					shell->t_sig_C = 1;
+				}
+				cmd->infile = shell->pip_herdoc[i][0];
+				cmd->outfile = shell->pip_herdoc[i][1];
+				close(cmd->outfile);
 			}
             redirection = redirection->next;
         }
@@ -180,7 +193,7 @@ void    ft_get_exec(t_shell *shell, t_cmd *cmd)
 		k = ft_count_herdoc_pipes(cmd);
 		ft_create_pipes_heredoc(shell, k);
     	ft_check_her_doc(shell, cmd, k);
-		if (shell->h_c == 0)
+		if (shell->h_c == 0 && shell->t_sig_C == 0)
     		exec(shell, cmd);
 	}
 	else
