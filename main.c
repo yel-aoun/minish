@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/29 18:30:32 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/30 22:06:21 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ void	ft_sig_int(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_glob[1] = 1;
 	}
 }
 
@@ -208,7 +209,10 @@ int main(int ac, char **av, char **env)
 		signal(SIGQUIT, SIG_IGN);
         inpt = readline(YELLOW "bash-0.0 " WHITE);
 		if (!inpt)
+		{
+			g_glob[1] = 0;
 			ft_exit_sig("exit");
+		}
 		if (ft_strcmp(inpt, ""))
 		{
         	add_history(inpt);

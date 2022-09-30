@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 12:07:15 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/29 18:49:02 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:23:05 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,30 @@ int	ft_write(char *str)
 	return (k);
 }
 
-void	ft_up_help(t_shell *shell, char *str)
+void	ft_up_help(t_shell *shell, t_cmd *command)
 {
-	int	i;
+	int		i;
+	int		j;
+	t_cmd	*cmd;
 
-	i = 0;
-	if (ft_valid_name(str) == 1)
+	j = 1;
+	cmd = command;
+	while (cmd->cmd[j])
 	{
-		i = ft_search(str, '=');
-		if (i == 1)
-			shell->env = ft_add_env(shell, shell->env, str);
-		shell->export = ft_add_export(shell, shell->export, str);
-		g_glob[1] = 0;
-	}
-	else
-	{
-		printf("bash: export: `%s': not a valid identifier\n", str);
-		g_glob[1] = 1;
+		i = 0;
+		if (ft_valid_name(cmd->cmd[j]) == 1)
+		{
+			i = ft_search(cmd->cmd[j], '=');
+			if (i == 1)
+				shell->env = ft_add_env(shell, shell->env, cmd->cmd[j]);
+			shell->export = ft_add_export(shell, shell->export, cmd->cmd[j]);
+			g_glob[1] = 0;
+		}
+		else
+		{
+			printf("bash: export: `%s': not a valid identifier\n", cmd->cmd[j]);
+			g_glob[1] = 1;
+		}
+		j++;
 	}
 }

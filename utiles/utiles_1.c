@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:34:42 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/23 13:32:55 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/30 21:37:31 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*ft_find_in_env(char **new, char *find)
 void	ft_export(t_shell *shell, char **env)
 {
 	int		i;
-	// char	**export;
 
 	i = 0;
 	shell->export = malloc(sizeof(char *) * (ft_count(env) + 1));
@@ -56,7 +55,6 @@ void	ft_export(t_shell *shell, char **env)
 void	ft_env(t_shell *shell, char **env)
 {
 	int		i;
-	// char	**new;
 
 	i = 0;
 	shell->env = malloc(sizeof(char *) * (ft_count(env) + 1));

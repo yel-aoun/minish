@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:36:15 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/29 16:37:58 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:48:23 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 void	ft_init_env(t_shell *shell, char **new)
 {
-	// shell->env = malloc(sizeof(char **) * ft_count(new) + 1);
-	// shell->export = malloc(sizeof(char **) * ft_count(new) + 1);
-	// if (!shell->env || !shell->export)
-	// 	return ;
-	shell->t_sig_C = 0;
 	shell->in = 0;
 	shell->out = 0;
 	ft_export(shell, new);

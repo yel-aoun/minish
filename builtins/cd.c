@@ -6,11 +6,11 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:42:21 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/29 18:39:48 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:14:56 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#	include "../includes/shell.h"
+#include "../includes/shell.h"
 
 void	ft_norm(t_shell *shell)
 {
@@ -62,8 +62,7 @@ void	ft_cd_help(t_shell *shell, t_cmd *cmd)
 			splt = ft_split(tmp, '=');
 			if (chdir(splt[1]) == -1)
 			{
-				printf("cd: %s: No such file or directory\n", \
-					cmd->cmd[1]);
+				printf("cd: %s: No such file or directory\n", cmd->cmd[1]);
 				g_glob[1] = 1;
 			}
 			else
