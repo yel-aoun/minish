@@ -78,28 +78,40 @@ char	*ft_tsubstr(char *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char    *ft_find_in_path(char **env, char *str)
+char	*ft_value_of_env(char *str)
 {
-    char    *save;
-    char    *arg;
-    int i;
-    int j;
+	char **splt;
 
-    j = 0;
-    i = 0;
-    arg = ft_tstrjoin(str, "=");
-    while (env[i])
-    {
-        j = ft_tstrncmp(env[i], arg, ft_tstrlen(arg));
-        if(!j)
-            break;
-        i++;
-    }
-    if (!j)
-        save = ft_tsubstr(env[i], ft_tstrlen(arg), ft_tstrlen(env[i] + 5));
-    else
-        save = "";
-    return (save);
+	splt = ft_split(str, '=');
+	return (splt[1]);
+}
+
+char    *ft_find_in_path(char **new, char *find)
+{
+    int		i;
+	int		k;
+	char	**splt;
+
+	k = 0;
+	i = 0;
+	while (new[i])
+	{
+		splt = ft_split(new[i], '=');
+		k = ft_is_longer(splt[0], find);
+		if (k > 0)
+		{
+			if (ft_strncmp(splt[0], find, k) == 0)
+			{
+				free (splt);
+				return (ft_value_of_env(new[i]));
+			}
+			i++;
+		}
+		else
+			i++;
+		free (splt);
+	}
+	return ("");
 }
 
 // int main(int argc, char **argv, char **env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 13:45:50 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/26 17:46:32 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/01 15:18:28 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ char	*find_in_env(lexer_t *lexer, char **env)
 	if (lexer->c == '$')
 	{
 		str = ft_find_in_path(env, get_alnum(&(lexer->contents[lexer->i + 1]), lexer));
-		//printf("pizzaaaa %s\n", str);
 		return (str);
 	}
+	if (lexer->c == '?')
+		return (ft_itoa(g_glob[1]));
 	else
 		return (lexer_get_current_char_as_atring(lexer));
 }
@@ -44,7 +45,6 @@ char *get_alnum(char *str, lexer_t *lexer)
 		lexer_advance(lexer);
 	}
 	s[j] = '\0';
-	//printf("houuuuuch %s\n", s);
 	return(s);
 }
 
@@ -56,11 +56,12 @@ char	*find_in_env2(lexer_t *lexer, char **env)
 	if (lexer->c == '$')
 	{
 		str = ft_find_in_path(env, get_alnum(&(lexer->contents[lexer->i + 1]), lexer));
-		//printf("pizzaaaa %s\n", str);
 		return (str);
 	}
+	if (lexer->c == '?')
+		return (ft_itoa(g_glob[1]));
 	else if (lexer->c != ' ')
 		return (str = lexer_get_current_char_as_atring(lexer));
 	else
 		return ("");
-}
+} 

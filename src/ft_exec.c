@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 16:21:17 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/01 15:55:41 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	ft_check_her_doc(t_shell *shell, t_cmd *command)
 				if (redirection->value == NULL)
 				{
 					shell->h_c = 1;
-					printf("bash: syntax error near unexpected token\n");
+					printf("bash: syntax error near unexpected token `newline'\n");
 					break ;
 				}
 				pipe(shell->pip_herdoc[i]);
@@ -167,7 +167,7 @@ void	ft_check_her_doc(t_shell *shell, t_cmd *command)
 				{
 					shell->t_sig_c = 1;
 					g_glob[1] = 1;
-					// ft_close_insegnals(shell, i);
+					//ft_close_insegnals(shell, i);
 					break ;
 				}
 				cmd->infile = shell->pip_herdoc[i][0];
@@ -176,6 +176,8 @@ void	ft_check_her_doc(t_shell *shell, t_cmd *command)
 			}
 			redirection = redirection->next;
 		}
+		if (shell->t_sig_c == 1)
+			break ;
 		new_neud = 0;
 		cmd = cmd->next;
 	}

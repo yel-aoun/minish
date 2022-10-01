@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/30 22:06:21 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/01 15:29:10 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,12 +199,12 @@ int main(int ac, char **av, char **env)
 
 	cmd = NULL;
 	shell = malloc(sizeof(t_shell));
-	g_glob[1] = 0;
 	ft_init_env(shell, env);
+	g_glob[1] = 0;
 	while(1)
 	{
-		g_glob[0] = 0;
 		str = NULL;
+		g_glob[0] = 0;
 		signal(SIGINT, ft_sig_int);
 		signal(SIGQUIT, SIG_IGN);
         inpt = readline(YELLOW "bash-0.0 " WHITE);
@@ -223,7 +223,6 @@ int main(int ac, char **av, char **env)
 			(void) (av);
 			while ((token = lexer_get_next_token(lexer, shell->env )) != NULL)
 			{
-				// printf("ssstttrrrr,main : %s\n", token->value);
 				while (token->type != token_pipe)
 				{
 					if (is_redirection(token))
@@ -235,7 +234,8 @@ int main(int ac, char **av, char **env)
 					if ((token = lexer_get_next_token(lexer, shell->env)) == NULL)
 						break;
 				}
-				// ppp_struct(redir);
+				// printf("tokennnn : %s\n", token->value);
+				ft_after_pipe(lexer, token, env);
 				ft_lstnew(&new, redir, str);
 				new->next = NULL;
 				ft_lstadd_back(&cmd, new);
@@ -243,9 +243,32 @@ int main(int ac, char **av, char **env)
 				str = NULL;
 			}
 			// pr_struct(cmd);
-			ft_get_exec(shell, cmd);
+			if (g_glob[0] == 0)
+				ft_get_exec(shell, cmd);
 			ft_free_struct(&cmd);
 			free (str);
+		}
+	}
+}
+
+void	ft_after_pipe(lexer_t *lexer, token_t *token, char **env)
+{
+	token_t	*tok2;
+	lexer_t	*lexer2;
+
+	int		i;
+	i = 0;
+	lexer2 = init_lexer(lexer->contents);
+	while (lexer2->i < lexer->i)
+		tok2 = lexer_get_next_token(lexer2, env);
+	// printf ("tok2 value : %s\n", tok2->value);
+	if (token != NULL)
+	{ 
+		if (token->type == token_pipe && (tok2 = lexer_get_next_token(lexer2, env)) == NULL)
+		{
+			printf("bash: syntax error near unexpected token `|'\n");
+			g_glob[0] = 1;
+			g_glob[1] = 258;
 		}
 	}
 }

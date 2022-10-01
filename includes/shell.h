@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 21:26:17 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/09/30 22:51:15 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct shell
 	char	**command;
 	char	*command_path;
 	char	**path;
+	char	*pwd;
 	int		err;
 	int		*prosess_id;
 	int		id;
@@ -83,7 +84,7 @@ int		ft_cd(t_shell *shell, t_cmd *cmd);
 int		ft_echo(t_cmd *cmd);
 int		ft_put_env(t_shell *shell, t_cmd *cmd);
 int		ft_put_export(t_shell *shell, t_cmd *cmd);
-int		ft_put_pwd(void);
+int		ft_put_pwd(t_shell *shell);
 int		ft_unset(t_shell *shell, t_cmd *cmd);
 void	ft_exit(t_cmd *cmd, int p);
 
