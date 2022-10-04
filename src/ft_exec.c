@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/01 15:55:41 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:28:41 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_check_valide_files(t_shell *shell, t_cmd *command)
 {
 	int				i;
 	t_cmd			*cmd;
-	t_redirection	*redirection;
+	t_redir	*redirection;
 
 	i = 0;
 	shell->err = 0;
@@ -43,10 +43,10 @@ void	ft_check_valide_files(t_shell *shell, t_cmd *command)
 
 int	ft_count_herdoc_pipes(t_cmd *command)
 {
-	t_cmd			*cmd;
-	t_redirection	*redirection;
-	int				i;
-	int				j;
+	t_cmd	*cmd;
+	t_redir	*redirection;
+	int		i;
+	int		j;
 
 	cmd = command;
 	i = 0;
@@ -87,7 +87,7 @@ void	ft_create_pipes_heredoc(t_shell *shell, int k)
 	}
 }
 
-void	ft_open_heredoc(t_shell *shell, t_redirection *redirection, int i)
+void	ft_open_heredoc(t_shell *shell, t_redir *redirection, int i)
 {
 	int		j;
 	char	*limiter;
@@ -123,7 +123,7 @@ void	ft_open_heredoc(t_shell *shell, t_redirection *redirection, int i)
 void	ft_check_her_doc(t_shell *shell, t_cmd *command)
 {
 	t_cmd			*cmd;
-	t_redirection	*redirection;
+	t_redir	*redirection;
 	pid_t			id;
 	int				i;
 	int				seg;
@@ -151,7 +151,8 @@ void	ft_check_her_doc(t_shell *shell, t_cmd *command)
 				if (redirection->value == NULL)
 				{
 					shell->h_c = 1;
-					printf("bash: syntax error near unexpected token `newline'\n");
+					printf("bash: syntax error near unexpected \
+						token `newline'\n");
 					break ;
 				}
 				pipe(shell->pip_herdoc[i]);
@@ -183,11 +184,13 @@ void	ft_check_her_doc(t_shell *shell, t_cmd *command)
 	}
 }
 
-void	ft_get_exec(t_shell *shell, t_cmd *cmd)
+void	ft_get_exec(t_shell *shell, t_cmd *command)
 {
-	int	k;
+	int		k;
+	t_cmd	*cmd;
 
 	k = 0;
+	cmd = command;
 	shell->h_c = 0;
 	ft_check_valide_files(shell, cmd);
 	if (shell->err == 0)
@@ -199,5 +202,5 @@ void	ft_get_exec(t_shell *shell, t_cmd *cmd)
 			exec(shell, cmd);
 	}
 	else
-		printf("bash: syntax error near unexpected token\n");
+		printf("bash: syntax error near unexpected token `newline '\n");
 }

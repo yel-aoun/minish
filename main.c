@@ -6,53 +6,19 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 11:27:46 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/01 15:29:10 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:10:42 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/shell.h"
 
-void	ft_free_struct(t_cmd **cmd)
-{
-	int i;
-	t_cmd *com;
-	
-	com = *cmd;
-
-	i = 0;
-	while ((*cmd))
-	{
-		i = 0;
-		while ((*cmd)->cmd[i])
-		{
-			free((*cmd)->cmd[i]);
-			i++;
-		}
-		free((*cmd)->cmd);
-		(*cmd) = (*cmd)->next;
-	}
-	free((*cmd));
-}
-
-void	ft_free2(t_redirection **redir)
-{
-	int		i;
-
-	i = 0;
-	while (*redir)
-	{
-		free((*redir)->type);
-		free((*redir)->value);
-		(*redir) = (*redir)->next;
-	}
-	free ((*redir));
-}
+#include "includes/shell.h"
 
 void	pr_struct(t_cmd *str)
 {
-	int i;
-	t_cmd*	cmd;
-	
+	int		i;
+	t_cmd	*cmd;
+
 	cmd = str;
 	i = 0;
 	while (cmd)
@@ -61,7 +27,7 @@ void	pr_struct(t_cmd *str)
 		printf("########  STRUCT  ######\n");
 		while (cmd->cmd[i])
 		{
-			printf(" ---cmd[%d]--->   %s\n",i, cmd->cmd[i]);
+			printf(" ---cmd[%d]--->   %s\n", i, cmd->cmd[i]);
 			i++;
 		}
 		printf("infile : %d\n", cmd->infile);
@@ -72,204 +38,92 @@ void	pr_struct(t_cmd *str)
 			printf("redirection : %s\n", cmd->redirection->value);
 			cmd->redirection = cmd->redirection->next;
 		}
-		cmd =cmd->next;
+		cmd = cmd->next;
 	}
 	printf("nanannanananaanan \n");
 }
 
-void	ppp_struct(t_redirection *str)
-{
-	int i;
-	t_redirection*	redir;
-	
-	redir = str;
-	i = 0;
-	while (redir)
-	{
-		printf("########  STRUCT  ######\n");
-		printf("neud n:%d type : %s, value : %s\n", i, redir->type, redir->value);
-		redir =redir->next;
-		i++;
-	}
-	printf("nonoonoonoonono \n");
-}
-
-
-void collect_redirection(t_redirection *redir, lexer_t *lexer, token_t *token, char **env)
-{
-	token_t	*tok1;
-	lexer_t	*lexer1;
-	int		i;
-	
-	i = 0;
-	lexer1 = init_lexer(lexer->contents);
-	while (lexer1->i < lexer->i)
-		tok1 = lexer_get_next_token(lexer1, env);
-	tok1 = lexer_get_next_token(lexer1, env);
-	redir->type = token->value;
-	// printf(" tok1 next : %s\n", tok1->value);
-	if (tok1 == NULL)
-		redir->value = NULL;
-	else if (tok1->type != token_word)
-		redir->value = NULL;
-	else if (tok1->type == token_word)
-	{
-		redir->value = tok1->value;
-		token = lexer_get_next_token(lexer, env);
-	}
-	// token = lexer_get_next_token(lexer, env);
-	// printf(" token next : %s\n", token->value);
-}
-
-char	*struct_cmd(lexer_t *lexer, token_t *token, char *str, char **env)
-{
-	(void)lexer;
-	(void)env;
-	// if (str[0] == '\0')
-	// 	return (str);
-	str = ft_tstrjoin(str, token->value);
-	str = ft_tstrjoin(str, ft_getchar(127));
-
-	return (str);
-}
-
-char	*ft_getchar(char c)
+void	function(t_cmd **cmd, lexer_t **lexer, char **env, token_t **token)
 {
 	char	*str;
+	t_cmd	*new;
+	t_redir	*redir;
 
-	str = malloc(2 * sizeof(char));
-	str[0] = c;
-	str[1] = '\0';
-	return (str);
-}
-
-int	is_redirection(token_t *token)
-{
-	if (token->type < 4 && token->type >= 0)
-		return (1);
-	return (0);
-}
-
-t_redirection	*struct_redir(token_t *token, lexer_t *lexer, char **env)
-{
-	t_redirection	*redir;
-
-	redir = malloc(sizeof(t_redirection));
-	redir->next = NULL;
-	
-	if (token->type == token_herdoc)
-		collect_redirection(redir, lexer, token, env);
-	else if (token->type == token_apend)
-		collect_redirection(redir, lexer, token, env);
-	else if (token->type == token_infile)
-		collect_redirection(redir, lexer, token, env);
-	else if (token->type == token_outfile)
-		collect_redirection(redir, lexer, token, env);
-	return (redir);
-}
-
-void	ft_sig_int(int sig)
-{
-	if (sig == SIGINT)
+	redir = NULL;
+	str = NULL;
+	new = NULL;
+	while ((*token)->type != token_pipe)
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_glob[1] = 1;
+		if (is_redirection(*token))
+			ft_lstadd_bak(&redir, struct_redir((*token), (*lexer), env));
+		else
+			str = struct_cmd((*lexer), (*token), str, env);
+		(*token) = lexer_next((*lexer), env);
+		if ((*token) == NULL)
+			break ;
+	}
+	if (*token)
+		ft_after_pipe((*lexer), (*token), env);
+	ft_lstnew(&new, &(*redir), str);
+	new->next = NULL;
+	ft_lstadd_back(&(*cmd), new);
+	redir = NULL;
+	str = NULL;
+}
+
+void	ft_help_main2(t_cmd **cmd, lexer_t **lexer, char **env)
+{
+	token_t	*token;
+
+	token = NULL;
+	token = lexer_next((*lexer), env);
+	while (token != NULL)
+	{
+		function(&(*cmd), &(*lexer), env, &token);
+		token = lexer_next((*lexer), env);
 	}
 }
 
-void	ft_exit_sig(char *str)
+void	ft_help_main1(t_cmd **cmd, t_shell *shell)
 {
-	printf("%s\n", str);
-	exit(0);
+	char	*inpt;
+	lexer_t	*lexer;
+
+	inpt = readline(YELLOW "bash-0.0 " WHITE);
+	if (!inpt)
+	{
+		g_glob[1] = 0;
+		ft_exit_sig("exit");
+	}
+	if (ft_strcmp(inpt, ""))
+	{
+		add_history(inpt);
+		lexer = init_lexer(inpt);
+		ft_help_main2(&(*cmd), &lexer, shell->env);
+		if (g_glob[0] == 0)
+			ft_get_exec(shell, (*cmd));
+		// pr_struct(*cmd);
+		ft_free_struct(&(*cmd));
+	}
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
 	t_shell	*shell;
-	char    *inpt;
-	char	*str;
-	t_redirection	*redir;
-	// t_redirection	*newr;
 	t_cmd	*cmd;
-	t_cmd	*new;
-	token_t *token = (void*)0;
 
+	(void)(ac);
+	(void)(av);
 	cmd = NULL;
 	shell = malloc(sizeof(t_shell));
 	ft_init_env(shell, env);
 	g_glob[1] = 0;
-	while(1)
+	while (1)
 	{
-		str = NULL;
 		g_glob[0] = 0;
-		signal(SIGINT, ft_sig_int);
-		signal(SIGQUIT, SIG_IGN);
-        inpt = readline(YELLOW "bash-0.0 " WHITE);
-		if (!inpt)
-		{
-			g_glob[1] = 0;
-			ft_exit_sig("exit");
-		}
-		if (ft_strcmp(inpt, ""))
-		{
-        	add_history(inpt);
-			redir = NULL;
-			lexer_t *lexer = init_lexer(inpt);
-			
-			(void) (ac);
-			(void) (av);
-			while ((token = lexer_get_next_token(lexer, shell->env )) != NULL)
-			{
-				while (token->type != token_pipe)
-				{
-					if (is_redirection(token))
-					{
-						ft_lstadd_bak(&redir, struct_redir(token, lexer, shell->env));
-					}
-					else
-						str = struct_cmd(lexer, token, str, shell->env);
-					if ((token = lexer_get_next_token(lexer, shell->env)) == NULL)
-						break;
-				}
-				// printf("tokennnn : %s\n", token->value);
-				ft_after_pipe(lexer, token, env);
-				ft_lstnew(&new, redir, str);
-				new->next = NULL;
-				ft_lstadd_back(&cmd, new);
-				redir = NULL;
-				str = NULL;
-			}
-			// pr_struct(cmd);
-			if (g_glob[0] == 0)
-				ft_get_exec(shell, cmd);
-			ft_free_struct(&cmd);
-			free (str);
-		}
-	}
-}
-
-void	ft_after_pipe(lexer_t *lexer, token_t *token, char **env)
-{
-	token_t	*tok2;
-	lexer_t	*lexer2;
-
-	int		i;
-	i = 0;
-	lexer2 = init_lexer(lexer->contents);
-	while (lexer2->i < lexer->i)
-		tok2 = lexer_get_next_token(lexer2, env);
-	// printf ("tok2 value : %s\n", tok2->value);
-	if (token != NULL)
-	{ 
-		if (token->type == token_pipe && (tok2 = lexer_get_next_token(lexer2, env)) == NULL)
-		{
-			printf("bash: syntax error near unexpected token `|'\n");
-			g_glob[0] = 1;
-			g_glob[1] = 258;
-		}
+		// signal(SIGINT, ft_sig_int);
+		// signal(SIGQUIT, SIG_IGN);
+		ft_help_main1(&cmd, shell);
 	}
 }
 	

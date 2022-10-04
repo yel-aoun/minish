@@ -6,7 +6,7 @@
 /*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 12:06:37 by araysse           #+#    #+#             */
-/*   Updated: 2022/09/30 11:19:39 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/04 15:12:55 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct redirec
 	char	*type;
 	char	*value;
 	struct  redirec *next;
-}	t_redirection;
+}	t_redir;
 
 typedef struct t_comand
 {
@@ -32,7 +32,7 @@ typedef struct t_comand
 	int 	fd[2];
 	int		infile;
 	int		outfile;
-	t_redirection	*redirection;
+	t_redir	*redirection;
 	struct t_comand	*next;
 }	t_cmd;
 
@@ -64,21 +64,21 @@ lexer_t		*init_lexer(char *contents);
 void	lexer_advance(lexer_t *lexer);
 
 void	lexer_skip_whitespace(lexer_t *lexer);
-token_t	*lexer_get_next_token(lexer_t *lexer, char **env);
+token_t	*lexer_next(lexer_t *lexer, char **env);
 char	*lexer_collect_string(lexer_t *lexer, char **env);
 token_t *lexer_collect_id(lexer_t *lexer, char **env);
-token_t	*lexer_advance_with_token(lexer_t *lexer, token_t *token);
-char	*lexer_get_current_char_as_atring(lexer_t	*lexer);
+token_t	*lxr_ad_tok(lexer_t *lexer, token_t *token);
+char	*lxr_as_str(lexer_t	*lexer);
 token_t	*lexer_infile(lexer_t *lexer);
 token_t	*lexer_outfile(lexer_t *lexer);
 char	*lexer_collect_single_quot(lexer_t *lexer);
 char	*ft_strcat(char *dest, char *src);
 // token_struct
 
-token_t	*init_token(int type, char *value);
+token_t	*init_tok(int type, char *value);
 
 // pars
-char    *ft_find_in_path(char **env, char *str);
+char    *f_in_path(char **env, char *str);
 char	*ft_tsubstr(char *s, unsigned int start, size_t len);
 // static int	min(int a, int b);
 char	*ft_tstrjoin(char *s1, char *s2);
@@ -91,11 +91,14 @@ void	ft_lstadd_back(t_cmd **alst, t_cmd *new);
 int		is_redirection(token_t *token);
 char	*ft_getchar(char c);
 char	*struct_cmd(lexer_t *lexer, token_t *token, char *str, char **env);
-void 	collect_redirection(t_redirection *redir, lexer_t *lexer, token_t *token, char **env);
-t_redirection	*struct_redir(token_t *token, lexer_t *lexer, char **env);
-void	ft_lstadd_bak(t_redirection **alst, t_redirection *new);
-void	ft_lstnew(t_cmd **cmd, t_redirection* redir, char* str);
+void 	col_redir(t_redir *redir, lexer_t *lexer, token_t *token, char **env);
+t_redir	*struct_redir(token_t *token, lexer_t *lexer, char **env);
+void	ft_lstadd_bak(t_redir **alst, t_redir *new);
+void	ft_lstnew(t_cmd **cmd, t_redir *redir, char* str);
 char	**ft_tsplit(const char *s, char c);
 char	*ft_eror(int i);
 void	ft_after_pipe(lexer_t *lexer, token_t *token, char **env);
+int		valid_char(lexer_t *lexer);
+void	ft_free_struct(t_cmd **cmd);
+void	function(t_cmd **cmd, lexer_t **lexer, char **env, token_t **token);
 #endif

@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 20:41:40 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/02 12:28:14 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,16 @@ void	exec(t_shell *shell, t_cmd *cmd)
 {
 	int	k;
 	int	l;
+	int	open;
 
 	l = 0;
+	open = 0;
 	k = co_unt(cmd);
 	if (k == 0)
 	{
+		open = ft_check_exec_builtin(cmd);
+		if (open)
+			ft_open_files(shell, cmd);
 		l = ft_check_builtins(shell, cmd, 0);
 		if (l == 0)
 			execute_cmds(cmd, shell, k);

@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 21:22:52 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 21:28:38 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/02 12:28:09 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,30 @@ void	ft_open(int flags, char *filename, t_shell *shell)
 		ft_outfile(shell, filename);
 	else if (flags == 3)
 		ft_append(shell, filename);
+}
+
+int	ft_check_exec_builtin(t_cmd *cmd)
+{
+	char	*cmp;
+	int		k;
+
+	k = 0;
+	cmp = ft_strdup(cmd->cmd[0]);
+	cmp = ft_lower(cmp);
+	if (ft_strcmp(cmp, "echo") == 0)
+		k = 1;
+	else if (ft_strcmp(cmp, "env") == 0)
+		k = 1;
+	else if (ft_strcmp(cmp, "pwd") == 0)
+		k = 1;
+	else if (ft_strcmp (cmd->cmd[0], "exit") == 0)
+		k = 1;
+	if (ft_strcmp(cmd->cmd[0], "cd") == 0)
+		k = 1;
+	else if (ft_strcmp(cmd->cmd[0], "export") == 0)
+		k = 1;
+	else if (ft_strcmp (cmd->cmd[0], "unset") == 0)
+		k = 1;
+	free (cmp);
+	return (k);
 }

@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:53:54 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 22:50:36 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:38:48 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,7 @@ int	ft_check_builtins(t_shell *shell, t_cmd *command, int p)
 	else
 		k = ft_help_check_builtin(cmd, shell);
 	free (cmp);
+	if (p == 0)
+		dup2(STDIN_FILENO, 1);
 	return (k);
 }

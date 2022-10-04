@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 09:44:12 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 11:48:01 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:03:00 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,28 @@ char	**update_export(t_shell *shell, char *str)
 int	ft_unset(t_shell *shell, t_cmd *cmd)
 {
 	int	i;
+	int	k;
 
 	i = 0;
+	k = 0;
 	if (!cmd->cmd[1])
+	{
+		g_glob[1] = 0;
 		return (1);
+	}
 	while (cmd->cmd[i])
 	{
-		shell->env = update_env(shell, cmd->cmd[i]);
-		shell->export = update_export(shell, cmd->cmd[i]);
+		if (ft_valid_unset(cmd->cmd[i]))
+			ft_valide_unset(shell, cmd, i);
+		else
+		{
+			printf("bash: unset: `%s': not a valid identifier\n", cmd->cmd[i]);
+			g_glob[1] = 1;
+			k = 1;
+		}
 		i++;
 	}
-	g_glob[1] = 0;
+	if (k == 1)
+		g_glob[1] = 1;
 	return (1);
 }

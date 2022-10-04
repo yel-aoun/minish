@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 20:42:11 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 21:28:29 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:30:08 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_open_files(t_shell *shell, t_cmd *command)
 {
 	int				i;
 	t_cmd			*cmd;
-	t_redirection	*redirection;
+	t_redir	*redirection;
 
 	i = 0;
 	shell->exit_creat = 0;
@@ -53,7 +53,7 @@ void	ft_open_files(t_shell *shell, t_cmd *command)
 void	ft_close_files(t_cmd *command)
 {
 	t_cmd			*cmd;
-	t_redirection	*redirection;
+	t_redir	*redirection;
 
 	cmd = command;
 	while (cmd)

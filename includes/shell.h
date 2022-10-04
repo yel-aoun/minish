@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 22:51:15 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:34:12 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ char	**ft_pwd(char **new);
 char	**ft_oldpwd(char **new);
 int		ft_is_n(char *str);
 
-//src/ft_init.c
+//src
 void	ft_init_env(t_shell *shell, char **new);
 int		ft_check_builtins(t_shell *shell, t_cmd *command, int p);
+char	*ft_lower(char *str);
 
 void	ft_get_exec(t_shell *shell, t_cmd *cmd);
 
@@ -87,6 +88,10 @@ int		ft_put_export(t_shell *shell, t_cmd *cmd);
 int		ft_put_pwd(t_shell *shell);
 int		ft_unset(t_shell *shell, t_cmd *cmd);
 void	ft_exit(t_cmd *cmd, int p);
+
+//builtins/unset_help.c
+void    ft_valide_unset(t_shell *shell, t_cmd *cmd, int i);
+int	ft_valid_unset(char *str);
 
 //builtins/export.c
 int		ft_search(char *str, char c);
@@ -141,6 +146,7 @@ void	ft_open_files(t_shell *shell, t_cmd *command);
 
 //signals//main.c
 void	ft_sig_int(int sig);
+
 //exec/exec_cmd_help.c
 void	ft_first_cmd_help(t_shell *shell, t_cmd *cmd);
 void	ft_help_between_c(t_shell *shell, t_cmd *cmd, int i);
@@ -155,10 +161,13 @@ void	ft_open(int flags, char *filename, t_shell *shell);
 void	ft_append(t_shell *shell, char *filename);
 void	ft_outfile(t_shell *shell, char *filename);
 void	ft_infile(t_shell *shell, char *filename);
+int		ft_check_exec_builtin(t_cmd *cmd);
 
 //exec/ft_check_access.c
 void	ft_check_access(char *arg, int n, t_shell *shell);
 void	ft_help_check_access(char *arg, t_shell *shell);
 void	ft_help_print_err_fille(char *err);
+
+void	ft_exit_sig(char *str);
 
 #endif
