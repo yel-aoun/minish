@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:02:14 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 09:16:51 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/08 17:50:04 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ char	*ft_add(char *str)
 	while (sp[0][i] && sp[0][i] != '+')
 		i++;
 	new = ft_strjoin(splt[0], (str + (i + 1)));
-	free (sp);
-	free (splt);
+	ft_free (sp);
+	ft_free (splt);
 	return (new);
 }
 
@@ -70,11 +70,11 @@ char	**ft_add_env_help(char **env, char *str)
 	else
 		new[i] = ft_strdup(str);
 	new[++i] = NULL;
-	free(s_s);
+	ft_free(s_s);
 	return (new);
 }
 
-char	**ft_add_export_help1(t_shell *shell, char *splt, char **env, char *str)
+char	**ft_add_export_help1(t_shell *shell, char *splt, char *str)
 {
 	int		k;
 	int		l;
@@ -82,7 +82,7 @@ char	**ft_add_export_help1(t_shell *shell, char *splt, char **env, char *str)
 
 	k = 0;
 	l = 0;
-	new = malloc(sizeof(char *) * (ft_count(env) + 2));
+	new = NULL;
 	k = ft_search(splt, '+');
 	l = ft_search(str, '=');
 	if (k == 1)
@@ -94,6 +94,7 @@ char	**ft_add_export_help1(t_shell *shell, char *splt, char **env, char *str)
 		free (new);
 		return (shell->export);
 	}
+	ft_free(shell->export);
 	return (new);
 }
 
@@ -119,5 +120,6 @@ char	**ft_add_export_help2(char **env, char *str)
 	else
 		new[i] = ft_strdup(str);
 	new[++i] = NULL;
+	ft_free(s_s);
 	return (new);
 }

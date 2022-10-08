@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:37:30 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 15:07:40 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:12:30 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ int	ft_put_env(t_shell *shell, t_cmd *cmd)
 		while (shell->env[i])
 		{
 			if (ft_strcmp(shell->env[i], ""))
-			{
 				printf("%s\n", shell->env[i]);
-			}
 			i++;
 		}
 		g_glob[1] = 0;

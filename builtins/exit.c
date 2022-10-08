@@ -6,13 +6,13 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 10:52:44 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/04 16:35:43 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:14:09 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	ft_norm4(char *str, unsigned long long sum, int j, \
+void	ft_put_error(char *str, unsigned long long sum, int j, \
 		unsigned long long numb)
 {
 	if (sum > numb && j == 1)
@@ -55,7 +55,7 @@ int	ft_toi(const char *s)
 	while (s[i] != '\0' && s[i] >= 48 && s[i] <= 57)
 	{
 		sum = sum * 10 + (s[i++] - '0');
-		ft_norm4((char *)s, sum, sign, 9223372036854775807);
+		ft_put_error((char *)s, sum, sign, 9223372036854775807);
 	}
 	return (sum * sign);
 }

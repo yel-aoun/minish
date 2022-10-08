@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:29:38 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 09:01:37 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:04:17 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,12 @@ char	**ft_pwd(char **new)
 		if (strncmp(new[i], "PWD=", 4) != 0)
 			newenv[i] = ft_strdup(new[i]);
 		else
-		{
-			newenv[i] = ft_strdup(pwd);
-			newenv[i] = ft_strjoin("PWD=", newenv[i]);
-		}
+			newenv[i] = ft_strjoin("PWD=", pwd);
 		i++;
 	}
 	newenv[i] = NULL;
-	free(new);
+	free(pwd);
+	ft_free(new);
 	return (newenv);
 }
 
@@ -53,28 +51,10 @@ char	**ft_oldpwd(char **new)
 		if (strncmp(new[i], "OLDPWD=", 7) != 0)
 			newenv[i] = ft_strdup(new[i]);
 		else
-		{
-			newenv[i] = ft_strdup(ft_find_in_env(new, "PWD="));
-			newenv[i] = ft_strjoin("OLD", newenv[i]);
-		}
+			newenv[i] = ft_strjoin("OLD", ft_find_in_env(new, "PWD="));
 		i++;
 	}
 	newenv[i] = NULL;
-	free(new);
+	ft_free(new);
 	return (newenv);
-}
-
-int	ft_is_n(char *str)
-{
-	int	i;
-
-	i = 1;
-	while (str[i])
-	{
-		if (str[i] == 'n')
-			i++;
-		else
-			return (0);
-	}
-	return (1);
 }

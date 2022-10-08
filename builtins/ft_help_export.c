@@ -6,11 +6,31 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 12:07:15 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/01 18:48:03 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:29:44 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
+int	ft_help_valid_name(char *s, int k)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '+')
+		{
+			if (s[i + 1] == '=')
+			{
+				k = 1;
+				break ;
+			}
+		}
+		i++;
+	}
+	return (k);
+}
 
 int	ft_write(char *str)
 {

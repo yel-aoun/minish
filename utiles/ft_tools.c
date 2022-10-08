@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:30:31 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/21 17:06:02 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/08 17:49:29 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ int	ft_exist_export(char **env, char *find)
 		str = ft_split(env[i], '=');
 		k = ft_is_longer(str[0], find);
 		if (ft_strncmp (str[0], find, k) == 0)
+		{
+			ft_free(str);
 			return (1);
+		}
 		i++;
-		free(str);
+		ft_free(str);
 	}
 	return (0);
 }
@@ -68,10 +71,10 @@ char	**ft_add_env(t_shell *shell, char **env, char *str)
 
 	j = 0;
 	k = 0;
-	new = malloc(sizeof(char *) * (ft_count(env) + 2));
 	splt = ft_split(str, '=');
 	s_p = ft_split(splt[0], '+');
 	j = ft_exist_export(env, s_p[0]);
+	ft_free(s_p);
 	if (j == 1)
 	{
 		k = ft_search(splt[0], '+');
@@ -82,6 +85,8 @@ char	**ft_add_env(t_shell *shell, char **env, char *str)
 	}
 	else
 		new = ft_add_env_help(env, str);
+	ft_free(env);
+	ft_free(splt);
 	return (new);
 }
 
@@ -93,15 +98,16 @@ char	**ft_add_export(t_shell *shell, char **env, char *str)
 	int		j;
 
 	j = 0;
-	new = malloc(sizeof(char *) * (ft_count(env) + 2));
 	splt = ft_split(str, '=');
 	s_p = ft_split(splt[0], '+');
 	j = ft_exist_export(env, s_p[0]);
 	if (j == 1)
-		new = ft_add_export_help1(shell, splt[0], env, str);
+		new = ft_add_export_help1(shell, splt[0], str);
 	else
 		new = ft_add_export_help2(env, str);
-	free (splt);
-	free (s_p);
+	if (j == 0)
+		ft_free(shell->export);
+	ft_free (splt);
+	ft_free (s_p);
 	return (new);
 }

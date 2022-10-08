@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 09:48:00 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/30 15:16:42 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:29:20 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,29 +70,20 @@ int	ft_search(char *str, char c)
 
 int	ft_valid_name(char	*s)
 {
-	int		i;
+	int		result;
 	char	**str;
 	int		k;
 
-	i = 0;
 	k = 0;
-	while (s[i])
-	{
-		if (s[i] == '+')
-		{
-			if (s[i + 1] == '=')
-			{
-				k = 1;
-				break ;
-			}
-		}
-		i++;
-	}
+	result = 0;
+	k = ft_help_valid_name(s, k);
 	if (s && (!(s[0] >= 'a' && s[0] <= 'z') && \
 		!(s[0] >= 'A' && s[0] <= 'Z') && !(s[0] == '_')))
 		return (0);
 	str = ft_split(s, '=');
-	return (ft_check(str[0], k));
+	result = ft_check(str[0], k);
+	ft_free(str);
+	return (result);
 }
 
 int	ft_put_export(t_shell *shell, t_cmd *cmd)

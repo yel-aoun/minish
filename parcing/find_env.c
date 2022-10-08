@@ -6,7 +6,7 @@
 /*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 13:45:50 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/04 15:21:17 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/05 12:31:26 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*get_alnum(char *str, lexer_t *lexer)
 		j++;
 		lexer_advance(lexer);
 	}
+	free (str);
 	s[j] = '\0';
 	return (s);
 }
@@ -62,7 +63,7 @@ char	*find_in_env2(lexer_t *lxr, char **env)
 	if (lxr->c == '?')
 		return (ft_itoa(g_glob[1]));
 	else if (lxr->c != ' ')
-		return (str = lxr_as_str(lxr));
+		return (lxr_as_str(lxr));
 	else
 		return ("");
 }

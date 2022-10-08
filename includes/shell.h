@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/04 18:34:12 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/08 17:48:10 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct shell
 	char	**path;
 	char	*pwd;
 	int		err;
+	int		new_neud;
 	int		*prosess_id;
 	int		id;
 	int		i;
@@ -71,7 +72,6 @@ void	ft_env(t_shell *shell, char **env);
 //utiles/utiles_2.c
 char	**ft_pwd(char **new);
 char	**ft_oldpwd(char **new);
-int		ft_is_n(char *str);
 
 //src
 void	ft_init_env(t_shell *shell, char **new);
@@ -90,8 +90,8 @@ int		ft_unset(t_shell *shell, t_cmd *cmd);
 void	ft_exit(t_cmd *cmd, int p);
 
 //builtins/unset_help.c
-void    ft_valide_unset(t_shell *shell, t_cmd *cmd, int i);
-int	ft_valid_unset(char *str);
+void	ft_do_unset(t_shell *shell, t_cmd *cmd, int i);
+int		ft_valid_unset(char *str);
 
 //builtins/export.c
 int		ft_search(char *str, char c);
@@ -111,8 +111,7 @@ char	**ft_join_export(t_shell *shell, char *str);
 char	**ft_join_env(t_shell *shell, char *str);
 
 //utiles/ft_tools_help.c
-char	**ft_add_export_help1(t_shell *shell, \
-		char *splt, char **env, char *str);
+char	**ft_add_export_help1(t_shell *shell, char *splt, char *str);
 char	**ft_add_export_help2(char **env, char *str);
 char	**ft_add_env_help(char **env, char *str);
 char	*ft_add(char *str);
@@ -134,6 +133,7 @@ void	last_c(t_cmd *cmd, t_shell *shell, int i);
 //builtins/ft_help_export.c
 int		ft_write(char *str);
 void	ft_up_help(t_shell *shell, t_cmd *cmd);
+int		ft_help_valid_name(char *s, int k);
 
 void	exec(t_shell *shell, t_cmd *cmd);
 
@@ -144,8 +144,9 @@ int		ft_count_herdoc_pipes(t_cmd *command);
 
 void	ft_open_files(t_shell *shell, t_cmd *command);
 
-//signals//main.c
+//parcing//help_main3.c
 void	ft_sig_int(int sig);
+void	ft_sig_child(int sig);
 
 //exec/exec_cmd_help.c
 void	ft_first_cmd_help(t_shell *shell, t_cmd *cmd);
@@ -169,5 +170,19 @@ void	ft_help_check_access(char *arg, t_shell *shell);
 void	ft_help_print_err_fille(char *err);
 
 void	ft_exit_sig(char *str);
+
+//free//src/ft_init.c
+void	ft_free(char **str);
+void	ft_free_pipes(int **arr, int k);
+
+//src/ ft_help1_exec.c
+void	ft_check_her_doc(t_shell *shell, t_cmd *command);
+void	ft_help_check_her_doc(t_shell *shell, t_cmd *cmd, t_redir *redirection);
+int		ft_do_somthing(t_shell *shell, int i);
+int		ft_help_open_her_doc(t_shell *shell, t_redir *redirection, int i);
+
+//src/ ft_help2_exec.c
+void	ft_open_heredoc(t_shell *shell, t_redir *redirection, int i);
+int		ft_help_open_her_doc_2(t_redir *redirection, int j, char *limiter);
 
 #endif

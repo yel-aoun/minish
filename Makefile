@@ -6,7 +6,7 @@
 #    By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/06 13:46:37 by yel-aoun          #+#    #+#              #
-#    Updated: 2022/10/04 18:29:28 by yel-aoun         ###   ########.fr        #
+#    Updated: 2022/10/08 16:42:53 by yel-aoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,12 @@ SRC = main.c src/ft_builtins.c src/ft_init.c src/ft_exec.c utiles/utiles_1.c \
 	parcing/ft_strcat.c parcing/find_env.c parcing/find_in_env.c \
 	parcing/ft_lstadd_back.c parcing/ft_split.c exec/exec_cmd_help.c \
 	exec/execution_help.c exec/execution_help_2.c exec/ft_check_access.c \
-	builtins/unset_help.c parcing/help_main1.c parcing/help_main2.c parcing/help_main3.c \
-	parcing/lexer2.c parcing/lexer3.c
+	builtins/unset_help.c parcing/help_main1.c parcing/help_main2.c \
+	parcing/help_main3.c parcing/lexer2.c parcing/lexer3.c src/ft_help1_exec.c \
+	src/ft_help2_exec.c
 
-CC = cc -Wall -Wextra -Werror  -g -fsanitize=address 
+EC = `stty -echoctl`
+CC = cc -Wall -Wextra -Werror  -g #-fsanitize=address 
 
 OBJ = $(SRC:.c=.o)
 LIB = libft/libft.a
@@ -35,8 +37,11 @@ $(LIB) :
 	@cd libft && make
 
 $(NAME) : $(LIB) $(OBJ)
-	@$(CC) $(OBJ) $(LIB) -lreadline -o $(NAME) -L ~/goinfre/.brew/opt/readline/lib -I ~/goinfre/.brew/opt/readline/include 
-
+	@$(EC)
+	@$(CC) $(OBJ) $(LIB) -lreadline -o $(NAME) #-L ~/goinfre/.brew/opt/readline/lib -I ~/goinfre/.brew/opt/readline/include 
+	@echo "\033[10;42mCOMPILED SUCCESSFULY \033[0m"
+%.o: %.c
+	@$(CC) -c $< -o $@  
 clean :
 	@rm -f $(OBJ) && cd libft && make clean
 

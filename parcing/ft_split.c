@@ -6,7 +6,7 @@
 /*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 21:18:53 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/04 10:56:01 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/05 10:05:27 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_sep(const char *s, char c, int k)
 	return (k);
 }
 
-char	**ft_tsplit(const char *s, char c)
+char	**ft_tsplit(char *s, char c)
 {
 	int		i;
 	int		j;
@@ -90,5 +90,6 @@ char	**ft_tsplit(const char *s, char c)
 		k = ft_sep(s, c, k);
 	}
 	str[i] = NULL;
+	free(s);
 	return (str);
 }

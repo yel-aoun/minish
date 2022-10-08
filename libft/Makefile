@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yel-aoun <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 23:00:08 by yel-aoun          #+#    #+#              #
-#    Updated: 2021/11/27 15:55:55 by yel-aoun         ###   ########.fr        #
+#    Updated: 2022/10/08 13:16:13 by yel-aoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,17 +25,17 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 
 %.o: %.c
-	cc $(CFLAGS) -c $< -o $@
-	$(AR) $(NAME) $@
+	@cc $(CFLAGS) -c $< -o $@
+	@$(AR) $(NAME) $@
 
 $(NAME): $(OBJS)
 
 all: $(NAME)
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

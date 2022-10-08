@@ -6,7 +6,7 @@
 /*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 12:06:37 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/04 15:12:55 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/05 11:09:36 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,11 @@ void 	col_redir(t_redir *redir, lexer_t *lexer, token_t *token, char **env);
 t_redir	*struct_redir(token_t *token, lexer_t *lexer, char **env);
 void	ft_lstadd_bak(t_redir **alst, t_redir *new);
 void	ft_lstnew(t_cmd **cmd, t_redir *redir, char* str);
-char	**ft_tsplit(const char *s, char c);
+char	**ft_tsplit(char *s, char c);
 char	*ft_eror(int i);
 void	ft_after_pipe(lexer_t *lexer, token_t *token, char **env);
 int		valid_char(lexer_t *lexer);
 void	ft_free_struct(t_cmd **cmd);
+void	ft_free2(t_redir **redir);
 void	function(t_cmd **cmd, lexer_t **lexer, char **env, token_t **token);
 #endif

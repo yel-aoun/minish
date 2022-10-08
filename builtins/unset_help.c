@@ -6,13 +6,13 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 18:41:31 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/01 18:48:23 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:04:45 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	ft_valide_unset(t_shell *shell, t_cmd *cmd, int i)
+void	ft_do_unset(t_shell *shell, t_cmd *cmd, int i)
 {
 	shell->env = update_env(shell, cmd->cmd[i]);
 	shell->export = update_export(shell, cmd->cmd[i]);

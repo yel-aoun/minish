@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:00:57 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/04 19:07:16 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:56:14 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ lexer_t	*init_lexer(char *contents)
 	lexer_t	*lexer;
 
 	lexer = calloc(1, sizeof (struct lexer_struct));
-	lexer->contents = malloc(sizeof(char) * ft_strlen(contents) + 1);
 	lexer->contents = contents;
 	lexer->i = 0;
 	lexer->c = contents[lexer->i];

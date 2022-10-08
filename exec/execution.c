@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/02 12:28:14 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/08 17:46:32 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 		return ;
 	if (shell->prosess_id[shell->id] == 0)
 	{
+		signal(SIGINT, ft_sig_child);
+		signal(SIGQUIT, SIG_DFL);
 		ft_open_files(shell, cmd);
 		if (shell->exit_creat == 0)
 			first_c(cmd, shell, k);
@@ -129,5 +131,8 @@ void	exec(t_shell *shell, t_cmd *cmd)
 	{
 		ft_creat_pipes(shell, k);
 		execute_cmds(cmd, shell, k);
+		ft_free_pipes(shell->pipes, k);
 	}
+	free(shell->prosess_id);
+	free(shell->command_path);
 }

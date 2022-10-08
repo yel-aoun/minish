@@ -6,7 +6,7 @@
 /*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:23:22 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/04 15:37:28 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/05 09:41:12 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ char	*ft_tstrjoin(char *s1, char *s2)
 		return (NULL);
 	while (s1[i])
 	{
-		str[i] = ((char *)s1)[i];
+		str[i] = s1[i];
 		i++;
 	}
 	lens1 = 0;
 	while (s2[lens1])
 		str[i++] = ((char *)s2)[lens1++];
 	str[i] = '\0';
+	free(s1);
+	free(s2);
 	return (str);
 }
 

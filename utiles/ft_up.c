@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 12:23:22 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/09/24 09:13:44 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/07 10:20:40 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	**ft_join_env(t_shell *shell, char *str)
 	shell->k = 0;
 	s_p = ft_split(str, '=');
 	splt = ft_split(s_p[0], '+');
+	ft_free(s_p);
 	env = malloc(sizeof(char *) * (ft_count(shell->env) + 1));
 	while (shell->env[shell->i])
 	{
@@ -55,11 +56,10 @@ char	**ft_join_env(t_shell *shell, char *str)
 		else
 			env[shell->i] = ft_strdup(shell->env[shell->i]);
 		shell->i++;
-		free (splt_shell);
+		ft_free (splt_shell);
 	}
 	env[shell->i] = NULL;
-	free(s_p);
-	free(splt);
+	ft_free(splt);
 	return (env);
 }
 
@@ -84,11 +84,11 @@ char	**ft_join_export(t_shell *shell, char *str)
 		else
 			export[shell->i] = ft_strdup(shell->export[shell->i]);
 		shell->i++;
-		free (splt_shell);
+		ft_free (splt_shell);
 	}
 	export[shell->i] = NULL;
-	free(s_p);
-	free(splt);
+	ft_free(s_p);
+	ft_free(splt);
 	return (export);
 }
 
@@ -97,20 +97,23 @@ char	**ft_up_env(t_shell *shell, char *str)
 	int		i;
 	char	**env;
 	char	**splt;
+	char	*tmp;
 
 	i = 0;
 	splt = ft_split(str, '=');
-	splt[0] = ft_strjoin(splt[0], "=");
+	tmp = ft_strjoin(splt[0], "=");
 	env = malloc(sizeof(char *) * (ft_count(shell->env) + 2));
 	while (shell->env[i])
 	{
-		if (ft_strncmp(shell->env[i], splt[0], strlen(splt[0])) == 0)
+		if (ft_strncmp(shell->env[i], tmp, strlen(tmp)) == 0)
 			env[i] = ft_strdup(str);
 		else
 			env[i] = ft_strdup(shell->env[i]);
 		i++;
 	}
 	env[i] = NULL;
+	ft_free(splt);
+	free(tmp);
 	return (env);
 }
 
@@ -135,8 +138,9 @@ char	**ft_up_export(t_shell *shell, char *str)
 		else
 			export[i] = ft_strdup(shell->export[i]);
 		i++;
-		free (splt_shell);
+		ft_free (splt_shell);
 	}
 	export[i] = NULL;
+	ft_free(splt);
 	return (export);
 }

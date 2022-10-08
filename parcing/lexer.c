@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 11:06:52 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/04 19:05:27 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/05 14:40:20 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ token_t	*lexer_next(lexer_t *lexer, char **env)
 {
 	while (lexer->c != '\0')
 	{
+
 		if (lexer->c == ' ' || lexer->c == 10)
 			lexer_skip_whitespace(lexer);
 		if (lexer->c == '<')
