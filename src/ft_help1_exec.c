@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 13:09:33 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/08 15:08:50 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/12 16:02:26 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ int	ft_help_open_her_doc(t_shell *shell, t_redir *redirection, int i)
 
 	seg = 0;
 	pipe(shell->pip_herdoc[i]);
+	signal(SIGINT, ft_sig_her_doc);
 	id = fork();
 	if (id == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		ft_open_heredoc(shell, redirection, i);
 		exit (0);
 	}
@@ -52,7 +54,7 @@ void	ft_help_check_her_doc(t_shell *shell, t_cmd *cmd, t_redir *redirection)
 	int	i;
 	int	seg;
 
-	i = 0;
+	i = -1;
 	seg = 0;
 	while (redirection)
 	{

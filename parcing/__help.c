@@ -1,45 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   help_main3.c                                       :+:      :+:    :+:   */
+/*   __help.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 18:58:01 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/14 10:18:43 by yel-aoun         ###   ########.fr       */
+/*   Created: 2022/10/14 11:52:42 by yel-aoun          #+#    #+#             */
+/*   Updated: 2022/10/14 11:54:00 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	ft_sig_child(int sig)
+char	*struct_cmd(t_lexer *lexer, t_token *token, char *str, char **env)
 {
-	(void) sig;
-	write (2, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-}
+	char	*s;
 
-void	ft_sig_int(int sig)
-{
-	if (sig == SIGINT)
+	(void)lexer;
+	(void)env;
+	if (token->value)
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		s = ft_getchar(127);
+		str = ft_tstrjoin(str, token->value);
+		str = ft_tstrjoin(str, s);
 	}
+	return (str);
 }
 
-void	ft_sig_her_doc(int sig)
+char	**return_null(void)
 {
-	(void) sig;
-	write (1, "\n", 1);
-}
+	char	**str;
 
-void	ft_exit_sig(char *str)
-{
-	(void)str;
-	printf("%s\n", str);
-	exit(0);
+	str = malloc(sizeof(char *));
+	str[0] = NULL;
+	return (str);
 }

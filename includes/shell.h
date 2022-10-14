@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 10:36:08 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/08 17:48:10 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/12 16:15:15 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ typedef struct shell
 {
 	char	**export;
 	char	**env;
-	int		argc;
-	char	**argv;
 	char	**cmd_args;
 	int		**pipes;
 	int		**pip_herdoc;
@@ -55,7 +53,7 @@ typedef struct shell
 	int		t_sig_c;
 }			t_shell;
 
-int	g_glob[2];
+int	g_glob[3];
 
 //utiles/ft_tools.c
 int		ft_strcmp(char *s1, char *s2);
@@ -85,7 +83,7 @@ int		ft_cd(t_shell *shell, t_cmd *cmd);
 int		ft_echo(t_cmd *cmd);
 int		ft_put_env(t_shell *shell, t_cmd *cmd);
 int		ft_put_export(t_shell *shell, t_cmd *cmd);
-int		ft_put_pwd(t_shell *shell);
+int		ft_put_pwd(void);
 int		ft_unset(t_shell *shell, t_cmd *cmd);
 void	ft_exit(t_cmd *cmd, int p);
 
@@ -117,12 +115,18 @@ char	**ft_add_env_help(char **env, char *str);
 char	*ft_add(char *str);
 int		ft_is_longer(char *str, char *str1);
 
-// exec/exec_utiles.c
+// exec/exec_utils.c
 void	ft_get_cmd(t_shell *shell, char **cmd);
+int		command_without_path(t_shell *shell, char **command);
+int		command_with_path(t_shell *shell, char **command);
+char	**ft_get_path(char **env);
 
 // exec/exec_tools.c
 void	ft_err_cmd(char *str, int k);
 void	ft_error(char *str);
+char	*ft_strjoin_2(char *s1, char *s2);
+void	ft_help_get_cmd(t_shell *shell, char **cmd);
+void	ft_simpl_help_in_exec(t_shell *shell, t_cmd *cmd, int k);
 
 //exec/exec_cmd.c
 void	ft_creat_pipes(t_shell *shell, int k);
@@ -147,6 +151,8 @@ void	ft_open_files(t_shell *shell, t_cmd *command);
 //parcing//help_main3.c
 void	ft_sig_int(int sig);
 void	ft_sig_child(int sig);
+void	ft_exit_sig(char *str);
+void	ft_sig_her_doc(int sig);
 
 //exec/exec_cmd_help.c
 void	ft_first_cmd_help(t_shell *shell, t_cmd *cmd);
@@ -168,8 +174,6 @@ int		ft_check_exec_builtin(t_cmd *cmd);
 void	ft_check_access(char *arg, int n, t_shell *shell);
 void	ft_help_check_access(char *arg, t_shell *shell);
 void	ft_help_print_err_fille(char *err);
-
-void	ft_exit_sig(char *str);
 
 //free//src/ft_init.c
 void	ft_free(char **str);

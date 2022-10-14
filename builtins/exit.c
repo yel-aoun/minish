@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 10:52:44 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/05 11:14:09 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/12 10:33:33 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_put_error(char *str, unsigned long long sum, int j, \
 {
 	if (sum > numb && j == 1)
 	{
+		write (2, "bash: exit: ", 12);
 		write(2, str, ft_strlen(str));
 		write(2, ": numeric argument required\n", 28);
 		g_glob[1] = 255;
@@ -24,6 +25,7 @@ void	ft_put_error(char *str, unsigned long long sum, int j, \
 	}
 	else if (sum > (numb + 1) && j == -1)
 	{
+		write (2, "bash: exit: ", 12);
 		write(2, str, ft_strlen(str));
 		write(2, ": numeric argument required\n", 28);
 		g_glob[1] = (255);
@@ -69,7 +71,7 @@ int	is_digit(char *str)
 		return (2);
 	while (str[i])
 	{
-		if (str[i] >= '0' && str[i] <= '9')
+		if (str[0] == '-' || str[0] == '+' || (str[i] >= '0' && str[i] <= '9'))
 			i++;
 		else
 			return (0);

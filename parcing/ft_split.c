@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 21:18:53 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/05 10:05:27 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/14 11:53:40 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	count_word(char const *s, char c)
 
 	i = 0;
 	j = 0;
+	if (!s)
+		return (0);
 	if (s[i] == c)
 		i++;
 	if (s[i] != c && s[i])
@@ -37,26 +39,6 @@ int	count_word(char const *s, char c)
 	return (j);
 }
 
-int	word_size(char const *s, char c, int start)
-{
-	int	len;
-
-	len = 0;
-	while (s[start] && s[start] != c)
-	{
-		start++;
-		len++;
-	}
-	return (len);
-}
-
-// char	**ft_free(char **str, int i)
-// {
-// 	while (i >= 0)
-// 		free(str[i--]);
-// 	return (NULL);
-// }
-
 int	ft_sep(const char *s, char c, int k)
 {
 	while (s[k] == c)
@@ -64,20 +46,39 @@ int	ft_sep(const char *s, char c, int k)
 	return (k);
 }
 
+char	**return_impty(void)
+{
+	char	**str;
+
+	str = malloc(2 * sizeof(char *));
+	str[0] = ft_strdup("");
+	str[1] = NULL;
+	return (str);
+}
+
 char	**ft_tsplit(char *s, char c)
 {
-	int		i;
-	int		j;
 	int		k;
 	char	**str;
 
-	i = -1;
-	if (!(s) || s[0] == '\0')
-		return (calloc(1, sizeof(char *)));
+	if (!s)
+		return (return_null());
+	if (!(s) || !s[0] || s[0] == 127)
+		return (return_impty());
 	str = malloc(sizeof(char *) * (count_word(s, c) + 1));
 	if (!str)
 		return (NULL);
 	k = ft_sep(s, c, 0);
+	str = hepl_split(s, c, str, k);
+	return (str);
+}
+
+char	**hepl_split(char *s, char c, char **str, int k)
+{
+	int		i;
+	int		j;
+
+	i = -1;
 	while (++i < count_word(s, c))
 	{
 		str[i] = malloc(sizeof(char) * (word_size(s, c, k) + 1));
@@ -90,6 +91,5 @@ char	**ft_tsplit(char *s, char c)
 		k = ft_sep(s, c, k);
 	}
 	str[i] = NULL;
-	free(s);
 	return (str);
 }

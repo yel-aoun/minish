@@ -6,51 +6,39 @@
 /*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:08:22 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/06 12:14:07 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/13 23:33:59 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-token_t	*lxr_ad_tok(lexer_t *lexer, token_t *token)
+t_token	*lxr_ad_tok(t_lexer *lexer, t_token *token)
 {
 	lexer_advance(lexer);
 	return (token);
 }
 
-token_t	*lexer_collect_id(lexer_t *lexer, char **env)
+t_token	*lexer_collect_id(t_lexer *lexer, char **env, int k)
 {
 	char	*v;
-	char	*str;
 	char	*s;
 
-	v = calloc(1, sizeof(char));
-	v[0] = '\0';
-	str = NULL;
+	v = NULL;
 	while (valid_char(lexer))
 	{
-		s = find_in_env2(lexer, env);
-		v = realloc(v, (ft_tstrlen(v) + ft_tstrlen(s) + 1) * sizeof(char));
-		ft_strcat(v, s);
-		free (s);
+		if (lexer->c != '"' && lexer->c != '\'')
+			s = find_in_env2(lexer, env);
+		if (lexer->c == '"')
+			s = lexer_collect_string(lexer, env, k);
+		if (lexer->c == '\'')
+			s = lexer_collect_single_quot(lexer, k);
+		v = ft_tstrjoin(v, s);
 		lexer_advance(lexer);
-	}
-	if (lexer->c == '"')
-		str = lexer_collect_string(lexer, env);
-	if (lexer->c == '\'')
-		str = lexer_collect_single_quot(lexer);
-	v = realloc(v, (ft_tstrlen(v) + ft_tstrlen(str) + 1) * sizeof(char));
-	ft_strcat(v, str);
-	free(str);
-	if (v && !v[0])
-	{
-		free(v);
-		return (init_tok(token_word, NULL));
 	}
 	return (init_tok(token_word, v));
 }
 
-char	*lxr_as_str(lexer_t	*lexer)
+char	*lxr_as_str(t_lexer	*lexer)
 {
 	char	*str;
 
@@ -60,7 +48,7 @@ char	*lxr_as_str(lexer_t	*lexer)
 	return (str);
 }
 
-token_t	*lexer_infile(lexer_t *lexer)
+t_token	*lexer_infile(t_lexer *lexer)
 {
 	char	*value;
 
@@ -77,7 +65,7 @@ token_t	*lexer_infile(lexer_t *lexer)
 	return (lxr_ad_tok(lexer, init_tok(token_infile, lxr_as_str(lexer))));
 }
 
-token_t	*lexer_outfile(lexer_t *lexer)
+t_token	*lexer_outfile(t_lexer *lexer)
 {
 	char	*value;
 

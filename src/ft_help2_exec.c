@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:41:59 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/08 16:44:03 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/12 12:34:41 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	ft_open_heredoc(t_shell *shell, t_redir *redirection, int i)
 	while (1)
 	{
 		j = 1;
-		signal(SIGINT, SIG_DFL);
 		limiter = readline("> ");
 		j = ft_help_open_her_doc_2(redirection, j, limiter);
 		if (j)
 		{
 			write(shell->pip_herdoc[i][1], limiter, ft_strlen(limiter));
 			write(shell->pip_herdoc[i][1], "\n", 1);
+			free(limiter);
 		}
 		else
 		{

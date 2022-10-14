@@ -1,4 +1,4 @@
-// /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   help_main2.c                                       :+:      :+:    :+:   */
@@ -6,58 +6,43 @@
 /*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:57:50 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/05 21:18:47 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/13 11:30:26 by araysse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	col_redir(t_redir *redir, lexer_t *lexer, token_t *token, char **env)
+void	col_redir(t_redir *redir, t_lexer *lexer, t_token *token, char **env)
 {
-	token_t	*tok1;
-	lexer_t	*lexer1;
+	t_token	*tok1;
+	t_lexer	*lexer1;
 	int		i;
 
 	i = 0;
+	tok1 = NULL;
 	lexer1 = init_lexer(lexer->contents);
 	while (lexer1->i < lexer->i)
-	{
-		tok1 = lexer_next(lexer1, env);
-		free(tok1->value);
-		free (tok1);
-	}
-	tok1 = lexer_next(lexer1, env);
+		increment(&tok1, lexer1, env);
+	tok1 = lexer_next(lexer1, env, 2);
 	free(lexer1);
 	redir->type = token->value;
 	if (tok1 == NULL)
 		redir->value = NULL;
-	else if (tok1->type != token_word)
+	else if (tok1->e_type != token_word || !(tok1->value[0]))
+		free_tok1(redir, tok1);
+	else if (tok1->e_type == token_word)
 	{
-		free(tok1->value);
-		redir->value = NULL;
-	}
-	else if (tok1->type == token_word)
-	{
-		redir->value = tok1->value;
-		token = lexer_next(lexer, env);
-		if (token)
-		{
-			free (token ->value);
-			free(token);
-		}
+		token = lexer_next(lexer, env, 2);
+		tok1_word(redir, tok1, token);
 	}
 	if (tok1)
 		free(tok1);
 }
 
-char	*struct_cmd(lexer_t *lexer, token_t *token, char *str, char **env)
+void	free_tok1(t_redir *redir, t_token *tok1)
 {
-	(void)lexer;
-	(void)env;
-	str = ft_tstrjoin(str, token->value);
-	str = ft_tstrjoin(str, ft_getchar(127));
-
-	return (str);
+	free(tok1->value);
+	redir->value = NULL;
 }
 
 char	*ft_getchar(char c)
@@ -70,26 +55,26 @@ char	*ft_getchar(char c)
 	return (str);
 }
 
-int	is_redirection(token_t *token)
+int	is_redirection(t_token *token)
 {
-	if (token->type < 4 && token->type >= 0)
+	if (token->e_type < 4 && token->e_type >= 0)
 		return (1);
 	return (0);
 }
 
-t_redir	*struct_redir(token_t *token, lexer_t *lexer, char **env)
+t_redir	*struct_redir(t_token *token, t_lexer *lexer, char **env)
 {
 	t_redir	*redir;
 
 	redir = malloc(sizeof(t_redir));
 	redir->next = NULL;
-	if (token->type == token_herdoc)
+	if (token->e_type == token_herdoc)
 		col_redir(redir, lexer, token, env);
-	else if (token->type == token_apend)
+	else if (token->e_type == token_apend)
 		col_redir(redir, lexer, token, env);
-	else if (token->type == token_infile)
+	else if (token->e_type == token_infile)
 		col_redir(redir, lexer, token, env);
-	else if (token->type == token_outfile)
+	else if (token->e_type == token_outfile)
 		col_redir(redir, lexer, token, env);
 	return (redir);
 }

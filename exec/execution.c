@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 14:52:47 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/08 17:46:32 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/12 15:50:17 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,19 @@ void	execute_cmds(t_cmd *command, t_shell *shell, int k)
 	shell->prosess_id = malloc(sizeof(int) * (k + 1));
 	if (!shell->prosess_id)
 		return ;
+	signal(SIGINT, ft_sig_child);
 	shell->prosess_id[shell->id] = fork();
 	if (shell->prosess_id[shell->id] == -1)
 		return ;
 	if (shell->prosess_id[shell->id] == 0)
 	{
-		signal(SIGINT, ft_sig_child);
 		signal(SIGQUIT, SIG_DFL);
-		ft_open_files(shell, cmd);
-		if (shell->exit_creat == 0)
-			first_c(cmd, shell, k);
-		else
-			exit (1);
+		ft_simpl_help_in_exec(shell, cmd, k);
 	}
 	else
 		ft_help_exec_cmd(shell, cmd, k);
 	ft_wait_childs(shell, (k + 1));
+	free(shell->prosess_id);
 }
 
 void	exec(t_shell *shell, t_cmd *cmd)
@@ -133,6 +130,4 @@ void	exec(t_shell *shell, t_cmd *cmd)
 		execute_cmds(cmd, shell, k);
 		ft_free_pipes(shell->pipes, k);
 	}
-	free(shell->prosess_id);
-	free(shell->command_path);
 }
