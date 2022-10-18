@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 08:57:45 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/14 11:37:16 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/16 17:33:27 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,6 @@ void	ft_get_cmd(t_shell *shell, char **cmd)
 {
 	if (cmd[0][0] == '\0')
 		ft_err_cmd(cmd[0], 1);
-	shell->path = ft_get_path(shell->env);
-	if (shell->path)
-		ft_help_get_cmd(shell, cmd);
 	else
-	{
-		ft_free(shell->path);
-		printf("kdfkgdfjkhdfjkgd\n");
-		ft_err_cmd(cmd[0], 2);
-	}
+		ft_help_get_cmd(shell, cmd);
 }

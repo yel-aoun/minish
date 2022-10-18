@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:00:57 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/14 11:45:04 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:39:42 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	lexer_advance(t_lexer *lexer)
 
 void	lexer_skip_whitespace(t_lexer *lexer)
 {
-	while (lexer->c == ' ' || lexer->c == 10)
+	while (lexer->c == ' ' || lexer->c == 10 || lexer->c == '\t')
 		lexer_advance(lexer);
 }
 

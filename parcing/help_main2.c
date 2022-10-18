@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_main2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:57:50 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/13 11:30:26 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/14 15:43:58 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	col_redir(t_redir *redir, t_lexer *lexer, t_token *token, char **env)
 	redir->type = token->value;
 	if (tok1 == NULL)
 		redir->value = NULL;
-	else if (tok1->e_type != token_word || !(tok1->value[0]))
+	else if (tok1->e_type != token_word || !(tok1->value))
 		free_tok1(redir, tok1);
 	else if (tok1->e_type == token_word)
 	{

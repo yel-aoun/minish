@@ -6,11 +6,34 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 11:29:38 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/07 11:04:17 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:05:15 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
+char	*ft_strdup_2(char *s1)
+{
+	char	*cup;
+	int		i;
+	int		size;
+
+	i = 0;
+	if (!s1)
+		return (NULL);
+	size = ft_strlen(s1);
+	cup = (char *)malloc(sizeof(char) * (size + 1));
+	if (cup == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		cup[i] = s1[i];
+		i++;
+	}
+	cup[i] = '\0';
+	free(s1);
+	return (cup);
+}
 
 char	**ft_pwd(char **new)
 {

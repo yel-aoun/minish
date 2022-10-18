@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 13:45:50 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/13 23:26:59 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/15 03:44:03 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ char	*find_in_env(t_lexer *lxr, char **env)
 			lexer_advance(lxr);
 			return (ft_itoa(g_glob[1]));
 		}
-		if (lxr->contents[lxr->i + 1] == '\0')
+		if (lxr->contents[lxr->i + 1] == '"'
+			|| lxr->contents[lxr->i + 1] == ' '
+			|| lxr->contents[lxr->i + 1] == '\t')
 			return (lxr_as_str(lxr));
 		str = f_in_path(env, get_alnum(&(lxr->contents[lxr->i + 1]), lxr));
 		return (str);

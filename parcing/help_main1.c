@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_main1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: araysse <araysse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:57:43 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/13 15:06:54 by araysse          ###   ########.fr       */
+/*   Updated: 2022/10/15 12:17:36 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,6 @@ void	ft_after_pipe(t_lexer **lexer, t_token *token, char **env)
 	}
 	if (token != NULL)
 		i = after_pipe(&tok2, lexer2, token, env);
-	if (i == 1)
-	{
-		free(tok2->value);
-		free (tok2);
-		g_glob[2] = 1;
-	}
 	free (lexer2);
 }
 
@@ -90,6 +84,8 @@ int	after_pipe(t_token **tok2, t_lexer *lexer2, t_token *token, char **env)
 		g_glob[0] = 1;
 		g_glob[1] = 258;
 		g_glob[2] = 1;
+		free ((*tok2)->value);
+		free ((*tok2));
 		return (1);
 	}
 	if (*tok2)

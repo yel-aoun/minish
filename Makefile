@@ -6,7 +6,7 @@
 #    By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/06 13:46:37 by yel-aoun          #+#    #+#              #
-#    Updated: 2022/10/14 11:55:06 by yel-aoun         ###   ########.fr        #
+#    Updated: 2022/10/17 12:41:02 by yel-aoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC = main.c src/ft_builtins.c src/ft_init.c src/ft_exec.c utiles/utiles_1.c \
 	parcing/help_main3.c parcing/lexer2.c parcing/lexer3.c src/ft_help1_exec.c \
 	src/ft_help2_exec.c parcing/parc_help.c parcing/__help.c
 
-CC = cc -Wall -Wextra -Werror  -g #-fsanitize=address 
+CC = cc -Wall -Wextra -Werror
 
 OBJ = $(SRC:.c=.o)
 LIB = libft/libft.a

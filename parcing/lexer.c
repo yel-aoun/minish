@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 11:06:52 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/14 11:46:54 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:39:23 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_token	*lexer_next(t_lexer *lexer, char **env, int k)
 {
 	while (lexer->c != '\0')
 	{
-		if (lexer->c == ' ' || lexer->c == 10)
+		if (lexer->c == ' ' || lexer->c == 10 || lexer->c == '\t')
 			lexer_skip_whitespace(lexer);
 		if (lexer->c == '<')
 			return (lexer_infile(lexer));

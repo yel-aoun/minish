@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 13:56:56 by yel-aoun          #+#    #+#             */
-/*   Updated: 2022/10/14 10:39:23 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/14 14:42:20 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,19 @@ void	ft_get_exec(t_shell *shell, t_cmd *command)
 	shell->h_c = 0;
 	shell->t_sig_c = 0;
 	ft_check_valide_files(shell, cmd);
-	k = ft_count_herdoc_pipes(cmd);
-	if (k)
-	{
-		ft_create_pipes_heredoc(shell, k);
-		ft_check_her_doc(shell, cmd);
-	}
 	if (shell->err == 0)
 	{
+		k = ft_count_herdoc_pipes(cmd);
+		if (k)
+		{
+			ft_create_pipes_heredoc(shell, k);
+			ft_check_her_doc(shell, cmd);
+		}
 		if (shell->h_c == 0 && shell->t_sig_c == 0)
 			exec(shell, cmd);
 		if (k)
 			ft_free_heredoc(shell, k);
 	}
 	else
-		printf("bash: syntax error near unexpected token `newline '\n");
+		printf("bash: syntax error near unexpected token `newline'\n");
 }

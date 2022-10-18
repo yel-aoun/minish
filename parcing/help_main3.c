@@ -6,7 +6,7 @@
 /*   By: yel-aoun <yel-aoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:58:01 by araysse           #+#    #+#             */
-/*   Updated: 2022/10/14 10:18:43 by yel-aoun         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:41:39 by yel-aoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	ft_exit_sig(char *str)
 {
 	(void)str;
 	printf("%s\n", str);
-	exit(0);
+	exit(g_glob[1]);
 }
